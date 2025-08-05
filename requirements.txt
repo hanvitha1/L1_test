@@ -10,3 +10,4 @@ scipy==1.10.1
 opencv-python==4.8.0.76
 sounddevice==0.4.6
 mss==7.0.1
+python-3.11.9
