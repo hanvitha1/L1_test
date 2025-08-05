@@ -1,0 +1,11 @@
+{
+    "rajesh.thamminaina@lyptus-tech.com": {
+        "fullname": "Admin",
+        "password_hash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
+        "role": "admin"
+    },
+    "eswar.medapati@lyptus-tech.com": {
+        "fullname": "eswar",
+        "password_hash": "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f"
+    }
+}

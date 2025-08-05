@@ -1,0 +1,1096 @@
+{
+    "0ff245bc-9e9a-4573-80bc-8d0b3277930c": {
+        "email": "vijay.peddamurre@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-06-25T01:36:10.320696",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true
+    },
+    "82729cc3-ec76-42b9-970c-fccc6b3831cc": {
+        "email": "vijay.peddamurre@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-06-25T01:49:10.957257",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true
+    },
+    "e2dabbf4-8c5e-400f-a973-9a184a8c15ef": {
+        "email": "vijay.peddamurre@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-06-25T01:54:10.396604",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true
+    },
+    "ea5a6b20-ef75-4d4a-816f-a4020c2a3017": {
+        "email": "vijay.peddamurre@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-06-25T02:05:10.485978",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true
+    },
+    "899bc392-6b21-4f05-be05-6b4e0976cdd3": {
+        "email": "vijay.peddamurre@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-06-25T02:25:26.492043",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "bf32134f-4916-4732-8abb-e555291cc6b7"
+    },
+    "0f2a42e2-3ff7-43b8-ac4b-363c91307350": {
+        "email": "vijay.peddamurre@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-06-25T02:51:20.649837",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "7cf5b8c0-c302-41b9-99c4-a82c3ae9baff"
+    },
+    "3f1fdd5b-1e52-4f17-9093-d1aa2cc080b0": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-06-25T02:58:25.717848",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "510ce937-99c9-44d5-8746-9725e1049e5b"
+    },
+    "e8d46bd5-7adb-4722-9027-f64476ce4670": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-06-25T03:08:12.447495",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": null
+    },
+    "82b4cf8d-ef80-4c7a-b97d-f547241ee810": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-06-25T03:17:50.254657",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "cdc682be-5037-41b2-b396-3a620dec2b03"
+    },
+    "75b59adb-bed5-4320-b9f6-b8117c038e46": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-06-25T03:57:10.046043",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "9501496e-b6b1-4337-8a49-afc48b8b3edc"
+    },
+    "b2b4ecc9-2c19-4a76-8f86-6805a0b6daff": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-06-25T04:39:04.397896",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "3d1bb8f9-c432-4281-baac-d3404e43052a"
+    },
+    "2b1a4300-e3ed-4b05-873f-8186925cac40": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-06-25T04:42:42.296441",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "3508af1b-8fb8-4f38-a45c-5b91df6db388"
+    },
+    "d6bd8595-f6fc-469c-994e-fc6b507fd846": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-06-25T04:53:16.587339",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "2fccf67a-8f88-4e31-bb70-02ac46e252cd"
+    },
+    "aa9a333e-16a9-45eb-ae37-c7d6263dee47": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T05:35:50.781583",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "a1f3610a-3248-4cc8-8643-dae458115a2f"
+    },
+    "2d5d3252-54ca-4577-b93f-7d50e20da3bf": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T06:38:52.787257",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "5773b835-6d99-4091-b791-91d39125cfca"
+    },
+    "70779d0c-1222-4efd-a9a1-2d3734292484": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T06:52:21.502679",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": null
+    },
+    "074d0a89-8e3a-4a45-8569-0d5286f9f7e5": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T07:10:32.870433",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "7202c174-eb25-48d5-9d41-bdb9ecb0578b"
+    },
+    "37aab03d-1e23-4b68-b781-fe619c450997": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T07:14:27.085229",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "264d71a7-7483-473a-be2e-bbd05e4ae13c"
+    },
+    "42db5dcb-bfd6-4907-b572-86f5375b5c89": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T07:44:39.891174",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "0c7d4359-93c4-4dee-ab0f-91f3d1a7bbf0"
+    },
+    "ff33f672-022a-4644-9aca-e7a89dae7320": {
+        "email": "hanvitha.gownipalli@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T10:33:59.222544",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "9663e87d-9e1c-409b-a4be-e8c2cfb2bce8"
+    },
+    "b336c733-eec8-4c1a-9271-6ac2cb53e336": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T11:39:44.258081",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "39d05762-2fc9-4c36-8e48-6095bb829926"
+    },
+    "0b1e54a2-c849-48e4-bb7c-91480b705c1b": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T12:17:58.272999",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "47c429f9-38eb-4922-8265-2a66bac8c835"
+    },
+    "4255a7a1-674e-41a2-9ab0-daa42413ead6": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T12:38:55.994397",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "04bd326f-97ac-4579-b86d-862cff124680"
+    },
+    "8c79a615-0985-4826-b0fd-68bf506395ef": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T14:01:39.109641",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "b7f9bb77-3960-45fa-9174-03ea10bf0359"
+    },
+    "574d63ee-1cd8-4ca3-86b5-d1476fc86294": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T14:04:33.583334",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "7d2e744c-ddd6-4361-9013-b5f4ca6b58ef"
+    },
+    "fcb8ac30-0dd7-42e8-8948-8baaafa437d1": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T14:07:56.836951",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "43c6b1ae-243a-469e-94c2-79958680716d"
+    },
+    "589d20c1-d97d-4994-9c6f-f24d69d9086a": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T14:56:40.935680",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "b8cacdfd-d24e-46ae-90a9-bbc14cb9e9f8"
+    },
+    "4b71488f-af96-4c21-876c-22f9f6abf889": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T14:57:11.229681",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "1c8b72f1-67df-40a8-81cb-50e63a214534"
+    },
+    "be1ac449-a931-4f4b-8f5d-f7ca717314ae": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T15:01:09.634512",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "16ac38c3-cf3f-4d1d-b95c-5997d217dd06"
+    },
+    "0486911f-d69b-420d-8f88-6fd713f0d216": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T15:08:06.615419",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "4b7dbb86-78d0-4815-8006-78343f5e3efd"
+    },
+    "f9ae23c6-6a58-4739-bbd5-72c4b1095fab": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T16:07:11.547134",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "11c7ef0c-f6b9-402e-90a3-57313cbfed40"
+    },
+    "a4b08c71-848e-4d37-b656-4271de8fdf5f": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T21:07:31.144191",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "44bf00fb-51bc-4fde-bcd0-e93e608a72d7"
+    },
+    "92fd37ca-feda-4260-842b-237d707c0f74": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T21:47:32.925002",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "9cb25154-7458-4478-94d5-dea0a3624721"
+    },
+    "eef848c9-4900-4f3c-8455-87b54019aa32": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-02T22:11:19.322387",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "53db896b-68d7-4647-bf45-12c861e9b2fd"
+    },
+    "94dd6e0e-0266-446b-8034-5dc4c81c2eb0": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-03T10:24:06.261620",
+        "first_access_ip": null,
+        "first_access_ua": null,
+        "activated": false,
+        "candidate_registered_id": null
+    },
+    "0d8d8821-2389-4dd5-b14c-ef37677dc1e6": {
+        "email": "sandhya.ireddy@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-03T10:24:06.751068",
+        "first_access_ip": null,
+        "first_access_ua": null,
+        "activated": false,
+        "candidate_registered_id": null
+    },
+    "60e0edc5-9f87-4dce-91ab-20394e48e886": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-03T11:18:49.977199",
+        "first_access_ip": null,
+        "first_access_ua": null,
+        "activated": false,
+        "candidate_registered_id": null
+    },
+    "6a79f103-8888-4456-962a-1ac68c127809": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-03T11:37:56.612427",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "4597877b-78bd-4d75-9934-2f222a9b7aa1"
+    },
+    "6b302094-4c6c-4684-87de-935e947906a5": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-03T11:40:10.476171",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": null
+    },
+    "80302e57-e70d-4695-85e7-318e4ee594bb": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-03T12:23:48.972660",
+        "first_access_ip": null,
+        "first_access_ua": null,
+        "activated": false,
+        "candidate_registered_id": null
+    },
+    "d16f77c6-5222-474b-9e07-b25422017e1c": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-03T12:32:42.197683",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": null
+    },
+    "00e054ce-da5b-4619-8ef9-15e9610642ef": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-03T12:34:46.755738",
+        "first_access_ip": null,
+        "first_access_ua": null,
+        "activated": false,
+        "candidate_registered_id": null
+    },
+    "84c1af43-9c87-4c7c-af7f-24779bfa5fde": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-03T13:02:31.728239",
+        "first_access_ip": null,
+        "first_access_ua": null,
+        "activated": false,
+        "candidate_registered_id": null
+    },
+    "86e684db-8af6-41d4-a1f8-616d0c17c82d": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-03T13:04:26.502768",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) EdgiOS/137.0.3296.92 Version/18.0 Mobile/15E148 Safari/604.1",
+        "activated": true,
+        "candidate_registered_id": null
+    },
+    "bf59d6fc-11a5-4766-958b-a844749562bd": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-03T13:05:08.356209",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/138.0.7204.53 Mobile/15E148 Safari/604.1",
+        "activated": true,
+        "candidate_registered_id": null
+    },
+    "31557810-8f08-4f49-b716-12e55f51fe12": {
+        "email": "vijay.peddamurre@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-03T13:06:46.146087",
+        "first_access_ip": "127.0.0.1",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "1aa4b97f-34d2-4719-8990-8d1a09f96a27"
+    },
+    "8b75de1e-10e8-4e0e-b831-72e72c69a152": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-03T17:14:47.141050",
+        "first_access_ip": "192.168.1.115",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "51c18f40-1e0c-40d7-8b6e-49c3b375d0f1"
+    },
+    "a6b9b9b2-7533-4714-8548-45d07a7cddfe": {
+        "email": "hanvitha.gownipalli@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-03T17:24:23.325685",
+        "first_access_ip": "192.168.1.115",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "13092992-309a-440b-b6eb-4e73d8e64f08"
+    },
+    "086af9e8-e936-4638-9f52-42cecd4b55f8": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-03T23:24:29.129814",
+        "first_access_ip": "192.168.1.115",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "ed36471d-1933-4928-a216-80934f3e646a"
+    },
+    "6509a106-836b-4c44-9b52-37bb694f7fe1": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-04T00:05:27.598935",
+        "first_access_ip": "192.168.1.107",
+        "first_access_ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/138.0.7204.56 Mobile/15E148 Safari/604.1",
+        "activated": true,
+        "candidate_registered_id": "8fe2cdd0-122d-4480-ae16-79396606fa74"
+    },
+    "ae651da0-4db9-48bd-abca-ffa87811d44f": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-07T11:02:28.263242",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "27ad51f5-c39e-4aee-8af0-875492089ecf"
+    },
+    "42d92c64-9cb8-4424-8ad3-c4a5fae1ae75": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-07T12:27:04.785175",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "b86bb35d-38d7-46c8-9099-a63f6fcc266a"
+    },
+    "6a1d2b7e-196a-4651-a6f7-7a716fe9d42d": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-07T12:32:10.667221",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "658403c5-98d1-4f58-98fa-39cd8dced1a0"
+    },
+    "88d204c8-4ea9-400e-b890-8e5a29900a97": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-07T13:45:59.083028",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "cf443403-b4b1-4851-ba79-8d8c30df4d7e"
+    },
+    "0f4cb4af-60e0-477c-8003-e4d87f8807d3": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-07T15:00:03.748187",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "06c2da90-780b-45cd-ac9c-907b2f55cbc1"
+    },
+    "9bbb4e7e-0c3b-4aca-a531-586401d3ba7a": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-07T18:11:24.620570",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "66a79e75-d13f-47e5-ba4f-b8561140eec5"
+    },
+    "219a14cc-55b1-4a5f-b6e4-8a6ea9780f36": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-07T18:41:58.951058",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "bf7a69bf-d194-4658-b0ed-38a02d101ffd"
+    },
+    "9dc14e68-a3e5-4db2-9598-381bc38b87d3": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-07T18:43:07.590190",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "b95ac4ba-999b-4a30-9548-b5b767a20972"
+    },
+    "3c0a9a7f-5aac-4acb-be0a-883f5f5f5a75": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-07T18:44:36.780056",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "68d2868c-3b83-4977-8252-7e2cbc7df9dc"
+    },
+    "5b0641e0-d9aa-48dc-bea8-bfc038f5c76f": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-07T18:55:28.726924",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "9b826bab-76fc-4dd7-ad24-f9b6e6479793"
+    },
+    "5f30f06d-519c-467f-8a81-525698b1b240": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-07T18:59:40.595694",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "6052821b-1717-4470-8969-61017d01bd36"
+    },
+    "ca5dffd0-2d53-4c8d-b7c7-771fb9c6bc85": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-07T19:05:20.107097",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "5ccf5066-2526-41df-8fce-9adc708c0dfd"
+    },
+    "1236c57c-c4f8-4a95-99aa-a202bde38691": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-08T10:18:52.707437",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "67134760-4fe0-4c2f-9d9d-c93626329985"
+    },
+    "34e344ed-24ef-4512-8307-0b383ba3b5d9": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-08T10:23:27.348095",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "adb2a31b-e5f7-4ebb-91e8-17e9cd7d8f98"
+    },
+    "cacbbdba-c1eb-4b2e-a69c-571b4533e1c2": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-08T10:41:16.521521",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "bfdbf895-63a2-436e-854b-dffa1ed9fd16"
+    },
+    "15bc838f-fff3-43a4-8e9a-c4698ea305bb": {
+        "email": "sandhya.ireddy@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-08T10:41:17.175367",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "ea4d1c0a-f5c8-4dee-b4f3-27cedbf8c5fb"
+    },
+    "5a53a106-345d-4493-a742-19071577f85d": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-08T10:41:29.645725",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "3b03a390-c8a0-45e4-af00-ce0aae5124ce"
+    },
+    "cd1688b9-b9af-4037-b85f-b153333eb74a": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-08T11:47:27.431821",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "069ee7d9-4e57-46ae-a2d4-81a0142aab08"
+    },
+    "f6c6de7f-70eb-47c1-b811-700e15847890": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-08T11:51:49.860781",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "f7482753-5b13-4d4d-956d-ece615faa77a"
+    },
+    "593eaac8-b13d-48bc-9c24-afa0caceaeec": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-08T11:58:48.117525",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "07ac5af6-a8b6-4c30-b2d2-02d292ae78a9"
+    },
+    "9e764323-4263-485b-bd84-6cb481e516eb": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-08T12:01:16.152165",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "8532fda9-9e02-4206-8b5c-6a420f3bb459"
+    },
+    "ea1e78a0-857d-4a74-8b10-c888f82486f4": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-08T12:24:50.947480",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "04bcce69-6ceb-428c-890a-48664c037f79"
+    },
+    "7294b947-6d6d-48e4-9add-f83360e391cc": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-08T12:25:27.869337",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": null
+    },
+    "109a99b6-1c15-4410-8ba2-0b6b0800907c": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-08T12:50:07.487124",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "2d3bb704-74df-40b2-845f-7adbca138ac9"
+    },
+    "b23a2e8d-fb66-4509-be83-5e79d5aca493": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-08T12:52:56.340489",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "7b63536f-cf37-447e-ba5f-44b1bc0a5464"
+    },
+    "da822b5c-e434-49d3-a596-4616f4707e48": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-10T13:24:35.994379",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "f3b94748-8edc-40ff-b017-6639b1a2e111"
+    },
+    "e556ec29-608e-452a-8eb8-a25f8f8979d3": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-10T14:55:24.638684",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "ae29da4a-75e3-4f81-85eb-d9646658be76"
+    },
+    "dae9e0f2-d2eb-43d8-a4d5-41eab39a6c0e": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-10T15:10:03.806629",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "0def67e3-f678-4231-9889-8c538f94b185"
+    },
+    "d762a8a7-64c4-49f5-b2b6-b27996f29b14": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-10T15:24:02.611721",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "158be2de-c13d-4e24-8073-989637c6b595"
+    },
+    "48b7308d-c0b8-4fb2-a20a-f716bedf0191": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-10T15:36:31.108072",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "3439efc4-9b10-46a2-88f3-4f8112390129"
+    },
+    "f13c3fef-bbcb-41ec-b669-2377e9357de8": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-10T15:42:24.616949",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "d75fecea-6d31-4a9a-bca0-78153d8b3b98"
+    },
+    "3b04555f-061d-4925-a0db-6c1415f0cc81": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-10T15:44:04.599704",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "f8633bfb-d728-4ee8-88ef-73481be00772"
+    },
+    "56280073-7afb-4609-b2e7-93e9101e8d3d": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-10T16:28:15.801042",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "c0112b54-f81c-49ec-bbf3-1114e6b1fe23"
+    },
+    "eb33a9d9-f035-4bd8-b69b-94af87c0cf85": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-10T16:30:12.898081",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "2106abe5-82d6-424d-b0e6-f5a256feaf4d"
+    },
+    "f840b5f6-c3d8-494b-a65f-a718cc865e0a": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-10T16:34:14.432474",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "6e48184c-2399-445e-b134-b610a00ef07d"
+    },
+    "4b7aec6c-eb87-45f3-bad2-ce624060ad47": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-10T16:41:18.504971",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "2b219962-a5aa-48e6-8db0-17a6acbd41c6"
+    },
+    "2207d04f-1be6-4dfe-b3ee-4fa04cce9898": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-10T16:50:49.389004",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "96db14a6-8e15-40d8-bdd7-bbd90cbfaf32"
+    },
+    "f0643eb8-4a29-4d94-8540-ecfe984bddb2": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-11T11:49:01.323980",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "49aafb08-06a1-4dd4-8074-6626844ee7ca"
+    },
+    "a06f4cb8-b0fc-4f55-be71-74b38a36d994": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-11T12:01:17.375216",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "64c7631a-9940-4d44-9a22-470666db39e4"
+    },
+    "d1e00c46-97c3-4264-8c7d-a3e74ba761f0": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-11T12:11:21.588906",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "d40684d5-b222-416a-b124-bfa1b90b3c87"
+    },
+    "07851e86-32ab-4a1b-a279-bf3267a71bbc": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-11T12:17:52.437414",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "c14f44b6-1352-4c09-bbff-cf5815c8b412"
+    },
+    "cb19c9c4-b428-41bd-a7d9-20ae91e1973a": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-11T12:24:51.659565",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "08113dac-9a28-40a4-80d0-ec78eb0d511d"
+    },
+    "6a2cbcd0-7fb5-42a4-9abb-240c3bd11655": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-11T13:00:10.717093",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "c567b873-f261-4aad-99e2-609976feff90"
+    },
+    "c1213cb5-2323-40e9-83b0-6cb865be3bdb": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-11T13:00:46.138812",
+        "first_access_ip": "192.168.20.127",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": null
+    },
+    "edb1c319-93a2-47e2-a7e8-65b027e018bb": {
+        "email": "hanvitha.gownipalli@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-11T14:16:24.415412",
+        "first_access_ip": "192.168.20.128",
+        "first_access_ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+        "activated": true,
+        "candidate_registered_id": "b042a1c8-84a4-40cc-afca-b143aec041f7"
+    },
+    "fe3b11c4-2926-4710-9f05-3989e8fdceab": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-18T17:11:48.681083",
+        "first_access_ip": "192.168.20.53",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "095dff1f-0bd2-401f-bd5f-f4bc6816a845"
+    },
+    "1e7eccfb-a198-4e1a-97ac-17f2093d7463": {
+        "email": "rajesh.katikam@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-18T17:33:12.179606",
+        "first_access_ip": "192.168.20.50",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+        "activated": true,
+        "candidate_registered_id": "902e93d8-357b-4433-aed4-740e942e286e"
+    },
+    "e10574fd-fd0a-4483-8adf-f79fddefabe3": {
+        "email": "hanvitha.gownipalli@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-25T17:34:55.187213",
+        "first_access_ip": "192.168.20.128",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": null
+    },
+    "988794f5-17d4-4b89-856b-f6bfd579dee1": {
+        "email": "hanvitha.gownipalli@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-25T17:40:07.616170",
+        "first_access_ip": "192.168.20.128",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": null
+    },
+    "f5213fdc-8069-4b5d-b86c-ce532cac7946": {
+        "email": "eswar.medapati@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-25T17:44:28.354267",
+        "first_access_ip": "192.168.20.128",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "189a76cf-d697-408a-9796-64cd4432220d"
+    },
+    "8c3669f6-adee-422f-8301-5371b6083959": {
+        "email": "hanvitha.gownipalli@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-25T18:00:04.135511",
+        "first_access_ip": "192.168.20.128",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "a53b63d9-8177-4f84-b425-9aaefc0e29fc"
+    },
+    "3e4db056-8fb7-4d57-b399-eebee6c90b75": {
+        "email": "hanvitha.gownipalli@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-25T18:07:59.413535",
+        "first_access_ip": "192.168.20.128",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "7a9b9c44-5622-494d-8d66-9df392740ac5"
+    },
+    "cf3238a2-9f87-4d36-9ae6-5b34c88ea623": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-28T09:53:17.873637",
+        "first_access_ip": "192.168.20.53",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "fb127897-40c7-464a-9722-9d95cdeb2832"
+    },
+    "3cba7438-a94d-4804-8f31-2a476a26111b": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-28T10:22:34.806394",
+        "first_access_ip": "192.168.20.53",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "a33b3451-abfc-4b82-bb2b-64dd8554effd"
+    },
+    "d349e021-f5a1-46e7-b513-755f1f2917f5": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-28T11:21:13.745032",
+        "first_access_ip": "192.168.20.53",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "9c4cee1b-3d44-4bd4-b2df-609237123cbb"
+    },
+    "746676ce-5c63-47ae-8f87-5b0fb5594a94": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-28T11:35:51.991180",
+        "first_access_ip": "192.168.20.53",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "d4638fa4-61c1-4377-aa2e-0139ea193d52"
+    },
+    "7be4abe4-414a-48f3-9a32-8cf1f43dc740": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-28T11:45:12.894608",
+        "first_access_ip": "192.168.20.53",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "3acd2ae8-2df5-4165-a4b0-39eadde3c92c"
+    },
+    "40860971-676f-477e-b278-9f89cc6d1bbc": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-28T12:15:02.094610",
+        "first_access_ip": "192.168.20.53",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "80d467ee-e83a-4727-800c-afe189298962"
+    },
+    "d881d777-4038-476b-b7ce-0fe525ff1500": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-28T12:16:34.503830",
+        "first_access_ip": "192.168.20.53",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "cc18a74f-b7bf-4199-a333-c3aae68850f6"
+    },
+    "5293d8dd-be82-42f8-883b-088c88ebea51": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-28T12:21:41.667225",
+        "first_access_ip": "192.168.20.53",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "085bffb8-de95-472a-83ce-6bd297444bb5"
+    },
+    "af0e4672-1b54-4d16-9329-6bdb7ca7a27b": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-28T12:35:59.394414",
+        "first_access_ip": "192.168.20.53",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "0a1f7665-f0e4-4e87-9071-850d5f370d47"
+    },
+    "abc01cc4-0c2a-4864-90b4-f605bc877042": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-28T13:03:06.003535",
+        "first_access_ip": "192.168.20.53",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "1d5e2a45-7c33-4a8c-aef2-7b13ec940a6f"
+    },
+    "0a500b84-db91-47b9-8ee2-78d64c0ae9b5": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-28T13:06:19.390567",
+        "first_access_ip": "192.168.20.53",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "11a3c493-9e1f-411a-b8a0-60830acdab69"
+    },
+    "2e0eb238-3091-487c-bb56-78726adc612a": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-28T14:03:22.775967",
+        "first_access_ip": "192.168.20.53",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "ab5a5c13-aed4-4f95-88d3-598040d9b513"
+    },
+    "edf13d66-ffec-49d7-9d8c-1616673463be": {
+        "email": "rajeshthamminaina@gmail.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-28T14:22:06.237707",
+        "first_access_ip": "192.168.20.53",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "f89c805d-6022-438a-bb43-219b5726a3da"
+    },
+    "b161a9bd-a7fc-458a-9443-af3e88f9491f": {
+        "email": "rajesh.thamminaina@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-28T14:30:14.558067",
+        "first_access_ip": "192.168.20.53",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": null
+    },
+    "723a0655-52f4-471b-98b2-b8bec2a1117d": {
+        "email": "hanvitha.gownipalli@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-07-28T14:36:47.474005",
+        "first_access_ip": "192.168.20.128",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "ce3edb11-60a2-4729-a7e1-b25f29c88b9f"
+    },
+    "3d9ba37a-0dd7-44da-b350-f1bee6d9eee3": {
+        "email": "hanvitha.gownipalli@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-08-11T14:50:26.576054",
+        "first_access_ip": "192.168.20.128",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "a0e48677-ca44-4ccb-8d2e-09ce14228983"
+    },
+    "54f71cca-a286-4770-980e-73eb4d4318fe": {
+        "email": "hanvitha.gownipalli@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-08-11T15:15:52.092653",
+        "first_access_ip": "192.168.20.128",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "3f004177-ebb1-469d-beb2-e7f712a19d3e"
+    },
+    "7991d999-1720-4a3a-b06f-f9472c448061": {
+        "email": "hanvitha.gownipalli@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-08-12T10:53:43.130742",
+        "first_access_ip": "192.168.20.128",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "8fd49f9f-6220-460f-b061-5a6f342e8a82"
+    },
+    "7c4b6560-b6a7-49c1-a699-ea9428f35a09": {
+        "email": "hanvitha.gownipalli@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-08-12T11:02:43.703471",
+        "first_access_ip": "192.168.20.128",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "13ae4467-24b7-41ec-a0a2-9587b5c929a5"
+    },
+    "f2aea8e9-95e2-4fa6-aff4-e3b8645898cf": {
+        "email": "hanvitha.gownipalli@lyptus-tech.com",
+        "reviewer_email": "eswar.medapati@lyptus-tech.com",
+        "expires_at": "2025-08-12T11:17:52.110893",
+        "first_access_ip": "192.168.20.128",
+        "first_access_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0",
+        "activated": true,
+        "candidate_registered_id": "71ccaf2b-958d-40a3-ae52-99cd266bc4a9"
+    }
+}
