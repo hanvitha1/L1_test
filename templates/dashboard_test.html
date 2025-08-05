@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviewer Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            flex-direction: column; /* Allows content, header, footer to stack vertically */
+            min-height: 100vh;
+            margin: 0;
+            padding: 0; /* Ensure no default body padding interferes */
+            box-sizing: border-box;
+        }
+        .message-box-success {
+            background-color: #d1fae5; /* Green-100 */
+            border-color: #34d399; /* Green-400 */
+            color: #065f46; /* Green-700 */
+        }
+        .message-box-error {
+            background-color: #fee2e2; /* Red-100 */
+            border-color: #ef4444; /* Red-400 */
+            color: #991b1b; /* Red-700 */
+        }
+        .hidden {
+            display: none !important;
+        }
+        /* Style for JSON textareas */
+        textarea.json-input {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            min-height: 120px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            resize: vertical;
+        }
+        .category-questions-table {
+            max-height: 400px; /* Limit height for scrolling */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            background-color: #e2e8f0; /* Gray-200 */
+            color: #4a5568; /* Gray-700 */
+        }
+        .tab-button.active {
+            background-color: #4299e1; /* Blue-500 */
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .tab-button:hover:not(.active) {
+            background-color: #cbd5e0; /* Gray-300 */
+        }
+
+        /* Modal specific styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+        .category-card {
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .category-card:hover {
+            background-color: #edf2f7;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg p-4 z-20">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="/static/lyptus-logo.jpg" alt="Lyptus Logo" class="h-10">
+                <h1 class="text-2xl font-bold text-white tracking-wide">Lyptus Assessments</h1>
+            </div>
+            <a href="/logout" class="px-4 py-2 bg-red-600 text-white font-semibold rounded-xl shadow-md hover:bg-red-700 transition duration-200 ease-in-out">
+                Logout
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow overflow-y-auto pt-20 pb-16 flex items-center justify-center p-4">
+        <div class="dashboard-container bg-white p-8 rounded-2xl shadow-xl space-y-8">
+            <h1 class="text-4xl font-extrabold text-gray-900 text-center">
+                {% if is_admin %}
+                    Admin Dashboard
+                {% else %}
+                    Reviewer Dashboard
+                {% endif %}
+            </h1>
+
+            <p class="text-lg text-gray-700 w-full text-center">
+                Welcome, <span id="user-email" class="font-semibold text-blue-600"></span>!
+                {% if is_admin %}
+                    This is your administrative dashboard. You can view all registered users, manage questions, and monitor test sessions.
+                {% else %}
+                    This is your personalized reviewer dashboard. Generate and manage test links here.
+                {% endif %}
+            </p>
+
+            <!-- Status Message Box -->
+            <div id="status-message-box" class="message-box p-4 rounded-lg border hidden w-full">
+                <p id="status-message-text" class="font-medium"></p>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="flex space-x-4 mb-8 w-full border-b border-gray-200 pb-4">
+                <button class="tab-button" onclick="changeTab('profile')">
+                    My Profile
+                </button>
+                {% if is_admin %}
+                    <button class="tab-button" onclick="changeTab('users')">
+                        User Management
+                    </button>
+                    <button class="tab-button" onclick="changeTab('questions')">
+                        Question Management
+                    </button>
+                {% endif %}
+                <button class="tab-button" onclick="changeTab('links')">
+                    {% if is_admin %}
+                        Link Management
+                    {% else %}
+                        Generated Links
+                    {% endif %}
+                </button>
+            </div>
+
+            {# SECTION: My Profile #}
+            <div id="profile-section" class="tab-content hidden bg-gray-50 p-6 rounded-xl shadow-inner space-y-6 w-full">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">My Profile</h2>
+                <div class="space-y-4 text-lg text-gray-700">
+                    <p><strong>Full Name:</strong> {{ current_user_profile.fullname }}</p>
+                    <p><strong>Email:</strong> {{ current_user_profile.email }}</p>
+                    <p><strong>Role:</strong>
+                        <span class="px-2 py-1 rounded-full text-sm font-semibold
+                            {% if current_user_profile.role == 'admin' %} bg-purple-200 text-purple-800
+                            {% else %} bg-blue-200 text-blue-800
+                            {% endif %}
+                        ">{{ current_user_profile.role|capitalize }}</span>
+                    </p>
+                </div>
+                <button id="reset-password-btn"
+                        class="mt-6 inline-flex items-center px-6 py-3 border border-transparent text-lg font-medium rounded-xl shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                    Reset Password
+                </button>
+            </div>
+
+            {# SECTION: User Management (Admin Only) #}
+            {% if is_admin %}
+            <div id="users-section" class="tab-content hidden bg-gray-50 p-6 rounded-xl shadow-inner space-y-6 w-full">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">User Management</h2>
+
+                <!-- All Registered Users Block - MOVED TO TOP -->
+                <h3 class="text-xl font-bold text-gray-800 mt-0 mb-4">All Registered Users</h3>
+                <div class="overflow-x-auto mb-8">
+                    <table class="min-w-full bg-white rounded-lg shadow-md">
+                        <thead>
+                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                <th class="py-3 px-6 text-left">Email</th>
+                                <th class="py-3 px-6 text-left">Full Name</th>
+                                <th class="py-3 px-6 text-left">Role</th>
+                                <th class="py-3 px-6 text-left">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-700 text-sm font-light">
+                            {% for email, user_info in all_users.items() %}
+                            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                <td class="py-3 px-6 text-left whitespace-nowrap">{{ email }}</td>
+                                <td class="py-3 px-6 text-left">{{ user_info.fullname }}</td>
+                                <td class="py-3 px-6 text-left">
+                                    <span class="px-2 py-1 rounded-full text-xs font-semibold
+                                        {% if user_info.role == 'admin' %} bg-purple-200 text-purple-800
+                                        {% else %} bg-blue-200 text-blue-800
+                                        {% endif %}
+                                    ">{{ user_info.role|capitalize }}</span>
+                                </td>
+                                <td class="py-3 px-6 text-left">
+                                    {% if email == "rajesh.thamminaina@lyptus-tech.com" %}
+                                        <span class="text-gray-400">Main Admin</span>
+                                    {% else %}
+                                        <button onclick="editUser('{{ email }}', '{{ user_info.fullname }}', '{{ user_info.role }}')"
+                                                class="text-blue-500 hover:text-blue-700 font-semibold mr-2">Edit</button>
+                                        <button onclick="deleteUser('{{ email }}')"
+                                                class="text-red-500 hover:text-red-700 font-semibold">Delete</button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {# Display message if no other users are registered besides the admin #}
+                            {% if admin_is_only_user %}
+                            <tr>
+                                <td colspan="4" class="py-4 px-6 text-center text-gray-500">No other users registered yet.</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Create/Edit User Management Block - MOVED TO BOTTOM -->
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Create/Edit User</h3>
+                <form id="user-form" action="/admin/users/save" method="POST" class="space-y-4">
+                    <div>
+                        <label for="user_email" class="block text-gray-700 text-sm font-semibold mb-2">User Email</label>
+                        <input type="email" id="user_email" name="email" required
+                               class="shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out">
+                    </div>
+                    <div>
+                        <label for="user_fullname" class="block text-gray-700 text-sm font-semibold mb-2">Full Name</label>
+                        <input type="text" id="user_fullname" name="fullname" required
+                               class="shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out">
+                    </div>
+                    <div>
+                        <label for="user_password" class="block text-gray-700 text-sm font-semibold mb-2">Password</label>
+                        <input type="password" id="user_password" name="password"
+                               class="shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out">
+                        <p class="text-sm text-gray-500 mt-1">For existing users, leave blank to keep current password. Enter new password to change.</p>
+                    </div>
+                    <div>
+                        <label for="user_role" class="block text-gray-700 text-sm font-semibold mb-2">Role</label>
+                        <select id="user_role" name="role" required
+                                class="shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out">
+                            <option value="reviewer">Reviewer</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" id="clear-user-form-btn"
+                                class="inline-flex items-center px-6 py-3 border border-gray-300 text-lg font-medium rounded-xl shadow-sm text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                            Clear Form
+                        </button>
+                        <button type="submit"
+                                class="inline-flex items-center px-8 py-3 border border-transparent text-lg font-medium rounded-xl shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                            Save User
+                        </button>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+
+            {# SECTION: Question Management (Admin Only) #}
+            {% if is_admin %}
+            <div id="questions-section" class="tab-content hidden bg-gray-50 p-6 rounded-xl shadow-inner space-y-6 w-full">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Question Management</h2>
+
+                <!-- Question Bank Overview - MOVED TO TOP -->
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Question Bank Overview</h3>
+                <!-- Container for category cards or detailed questions table -->
+                <div id="question-bank-container">
+                    <!-- Content will be dynamically loaded by JavaScript -->
+                </div>
+                <div class="mb-8"></div> {# Add some space before the form #}
+
+                <!-- Question Management Form - MOVED BELOW OVERVIEW -->
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Add/Edit Question</h3>
+                <form id="question-form" action="/admin/questions/save" method="POST" class="space-y-4">
+                    <input type="hidden" name="action" id="question-form-action" value="add"> {# Default to add #}
+
+                    <div>
+                        <label for="question_id" class="block text-gray-700 text-sm font-semibold mb-2">Question ID (e.g., PY001, C002 - Leave empty for new)</label>
+                        <input type="text" id="question_id" name="question_id"
+                               class="shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out">
+                    </div>
+                    <div>
+                        <label for="category" class="block text-gray-700 text-sm font-semibold mb-2">Category (e.g., A_B, C_D - determines JSON file)</label>
+                        <input type="text" id="category" name="category" value="misc" required
+                               class="shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out">
+                    </div>
+                    <div>
+                        <label for="title" class="block text-gray-700 text-sm font-semibold mb-2">Title</label>
+                        <input type="text" id="title" name="title" required
+                               class="shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out">
+                    </div>
+                    <div>
+                        <label for="description" class="block text-gray-700 text-sm font-semibold mb-2">Description</label>
+                        <textarea id="description" name="description" rows="5" required
+                                  class="shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out"></textarea>
+                    </div>
+                    <div>
+                        <label for="language" class="block text-gray-700 text-sm font-semibold mb-2">Default Language</label>
+                        <select id="language" name="language" required
+                                class="shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out">
+                            <option value="python">Python</option>
+                            <option value="c">C</option>
+                            <option value="cpp">C++</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="starter_code" class="block text-gray-700 text-sm font-semibold mb-2">Starter Code</label>
+                        <textarea id="starter_code" name="starter_code" rows="10" required
+                                  class="shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out"></textarea>
+                    </div>
+                    <div>
+                        <label for="sample_test_cases" class="block text-gray-700 text-sm font-semibold mb-2">Sample Test Cases (JSON Array)</label>
+                        <textarea id="sample_test_cases" name="sample_test_cases" rows="5" required
+                                  class="shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out json-input"
+                                  placeholder='[{"input": "5 3", "expected_output": "8"}]'></textarea>
+                    </div>
+                    <div>
+                        <label for="full_test_cases" class="block text-gray-700 text-sm font-semibold mb-2">Full Test Cases (JSON Array for Grading)</label>
+                        <textarea id="full_test_cases" name="full_test_cases" rows="7" required
+                                  class="shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out json-input"
+                                  placeholder='[{"input": "5 3", "expected": {"output": "8"}}]'></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" id="clear-question-form-btn"
+                                class="inline-flex items-center px-6 py-3 border border-gray-300 text-lg font-medium rounded-xl shadow-sm text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                            Clear Form
+                        </button>
+                        <button type="submit"
+                                class="inline-flex items-center px-8 py-3 border border-transparent text-lg font-medium rounded-xl shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                            Save Question
+                        </button>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+
+            {# SECTION: All Generated Links #}
+            <div id="links-section" class="tab-content hidden bg-gray-50 p-6 rounded-xl shadow-inner space-y-6 w-full">
+                {% if not is_admin %}
+                <h2 class="text-2xl font-bold text-gray-800">Generate Secure Access Links</h2>
+                <form action="/dashboard?view=links" method="POST" class="space-y-4 mb-8"> {# Ensure form posts to current view #}
+                    <div>
+                        <label for="recipient_emails" class="block text-gray-700 text-sm font-semibold mb-2">
+                            Recipient Email(s) (comma-separated)
+                        </label>
+                        <input type="text" id="recipient_emails" name="recipient_emails" placeholder="e.g., candidate1@example.com, candidate2@example.com"
+                               class="shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out">
+                        <p class="text-sm text-gray-500 mt-1">Links will be valid for 7 days and restricted to the first device used.</p>
+                    </div>
+                    <button type="submit"
+                            class="inline-flex items-center px-8 py-3 border border-transparent text-lg font-medium rounded-xl shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                        Generate Links
+                    </button>
+                </form>
+                {% endif %}
+
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">All Generated Links</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white rounded-lg shadow-md">
+                        <thead>
+                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                <th class="py-3 px-6 text-left w-1/5">Recipient Email</th>
+                                <th class="py-3 px-6 text-left w-1/5">Generated By</th>
+                                <th class="py-3 px-6 text-left">Expires At</th>
+                                <th class="py-3 px-6 text-left">Status</th>
+                                <th class="py-3 px-6 text-left">Candidate Info</th>
+                                <th class="py-3 px-6 text-left">Actions</th>
+                                <th class="py-3 px-6 text-left">PDF Report</th>
+                                {% if is_admin %}
+                                <th class="py-3 px-6 text-left">Admin Actions</th> {# New header for admin delete #}
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-700 text-sm font-light">
+                            {% for link in generated_links_data %}
+                            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                <td class="py-3 px-6 text-left w-1/5">{{ link.email }}</td>
+                                <td class="py-3 px-6 text-left w-1/5">{{ link.reviewer_email }}</td>
+                                <td class="py-3 px-6 text-left">{{ link.expires_at_str }}</td>
+                                <td class="py-3 px-6 text-left">
+                                    <span class="
+                                        {% if link.status == 'Expired (Unused Link)' %} text-red-600
+                                        {% elif link.status == 'Test Completed' %} text-green-600
+                                        {% elif link.status == 'Test Started (In Progress)' %} text-yellow-600
+                                        {% else %} text-blue-600
+                                        {% endif %}
+                                        font-semibold
+                                    ">{{ link.status }}</span>
+                                </td>
+                                <td class="py-3 px-6 text-left">
+                                    {% if link.registered_candidate %}
+                                        <strong>Name:</strong> {{ link.registered_candidate.full_name }}<br>
+                                        <strong>Email:</strong> {{ link.registered_candidate.email }}<br>
+                                        <strong>Phone:</strong> {{ link.registered_candidate.phone_number }}<br>
+                                        <strong>Started:</strong> {{ link.registered_candidate.test_started_at }}<br>
+                                        <strong>Completed:</strong> {{ 'Yes' if link.registered_candidate.test_completed else 'No' }}<br>
+                                        <strong>Score:</strong> {{ link.registered_candidate.score }}%
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </td>
+                                <td class="py-3 px-6 text-left flex items-center space-x-2">
+                                    {% if not link.is_expired and not link.is_activated %}
+                                        <a href="{{ link.url }}" target="_blank" class="text-blue-500 hover:text-blue-700 font-semibold">Open</a>
+                                        <button onclick="copyLink('{{ link.url }}')" class="text-gray-500 hover:text-gray-700 font-semibold focus:outline-none">Copy</button>
+                                    {% elif link.status == 'Test Started (In Progress)' and link.registered_candidate and link.registered_candidate.candidate_user_id and link.token %}
+                                        <a href="{{ url_for('test_page', candidate_user_id=link.registered_candidate.candidate_user_id, candidate_token=link.token) }}" target="_blank" class="text-yellow-500 hover:text-yellow-700 font-semibold">Resume</a>
+                                    {% elif link.status in ['Test Completed', 'Expired or Force Closed'] and link.registered_candidate and link.registered_candidate.candidate_user_id %}
+                                        <a href="{{ url_for('submission_success', candidate_user_id=link.registered_candidate.candidate_user_id) }}" target="_blank" class="text-green-500 hover:text-green-700 font-semibold">View Result</a>
+                                    {% else %}
+                                        <span class="text-gray-400">N/A</span>
+                                    {% endif %}
+                                </td>
+                                {# New column for PDF Report #}
+                                <td class="py-3 px-6 text-left">
+                                    {% if link.registered_candidate and (link.registered_candidate.test_completed or link.registered_candidate.score is not none) %}
+                                        <button onclick="downloadTestReport('{{ link.registered_candidate.candidate_user_id }}', '{{ link.registered_candidate.full_name }}')"
+                                                class="text-green-600 hover:text-green-900">Download Report (PDF)</button>
+                                    {% else %}
+                                        <span class="text-gray-400">N/A</span>
+                                    {% endif %}
+                                </td>
+                                {# Admin Delete Action #}
+                                {% if is_admin %}
+                                <td class="py-3 px-6 text-left">
+                                    <button onclick="deleteGeneratedLink('{{ link.token }}')"
+                                            class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-150 ease-in-out">
+                                        Delete
+                                    </button>
+                                </td>
+                                {% endif %}
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="7" class="py-4 px-6 text-center text-gray-500">No secure links generated yet.</td> {# Updated colspan #}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-gray-900 text-gray-300 p-4 text-center z-20 shadow-lg">
+        <div class="container mx-auto">
+            <p class="text-sm">
+                &copy; 2025 Lyptus Inc. All rights reserved.
+                <span class="block mt-1 md:inline md:mt-0 md:ml-2">Your premier platform for technical skill assessments.</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Password Reset Modal -->
+    <div id="password-reset-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 id="reset-modal-title" class="text-2xl font-bold text-gray-800 mb-4"></h3>
+            <p id="reset-modal-message" class="text-gray-700 mb-6"></p>
+
+            <!-- Request Reset Link Form (Initial state for forgotten password) -->
+            <form id="request-reset-form" class="space-y-4">
+                <div>
+                    <label for="reset_email" class="block text-gray-700 text-sm font-semibold mb-2">Your Registered Email</label>
+                    <input type="email" id="reset_email" name="email" required
+                           class="shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out">
+                </div>
+                <button type="submit" id="request-reset-btn"
+                        class="inline-flex items-center px-6 py-3 border border-transparent text-lg font-medium rounded-xl shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                    Request Reset Link
+                    <span id="request-reset-spinner" class="ml-2 hidden animate-spin rounded-full h-5 w-5 border-b-2 border-white"></span>
+                </button>
+            </form>
+
+            <!-- Set New Password Form (Visible when token is present in URL) -->
+            <form id="set-new-password-form" class="space-y-4 hidden">
+                <input type="hidden" id="reset_token_hidden" name="token">
+                <div>
+                    <label for="new_password" class="block text-gray-700 text-sm font-semibold mb-2">New Password</label>
+                    <input type="password" id="new_password" name="new_password" required
+                           class="shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out">
+                </div>
+                <div>
+                    <label for="confirm_new_password" class="block text-gray-700 text-sm font-semibold mb-2">Confirm New Password</label>
+                    <input type="password" id="confirm_new_password" name="confirm_new_password" required
+                           class="shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out">
+                </div>
+                <button type="submit" id="set-password-btn"
+                        class="inline-flex items-center px-6 py-3 border border-transparent text-lg font-medium rounded-xl shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                    Set New Password
+                    <span id="set-password-spinner" class="ml-2 hidden animate-spin rounded-full h-5 w-5 border-b-2 border-white"></span>
+                </button>
+            </form>
+
+            <button id="reset-modal-close-btn" class="mt-6 w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">Close</button>
+        </div>
+    </div>
+
+    <script>
+      // Auto-refresh logic for dashboard tabs
+      function autoRefreshTab(tabId, intervalMs) {
+        setInterval(() => {
+          const activeTab = document.querySelector('.tab-content:not(.hidden)');
+          if (activeTab && activeTab.id === tabId) {
+            location.reload();
+          }
+        }, intervalMs);
+      }
+
+      // Determine which tab needs auto-refresh based on role
+      document.addEventListener('DOMContentLoaded', () => {
+        {% if is_admin %}
+          autoRefreshTab('links-section', 30000); // Admins: refresh Link Management every 30s
+        {% else %}
+          autoRefreshTab('links-section', 30000); // Reviewers: refresh Generated Links every 30s
+        {% endif %}
+      });
+    </script>
+
+    <script>
+        // Data injected from Flask backend
+        // Make sure this matches the variable name in your Flask template context
+        let allQuestionData = {{ full_question_bank_for_display | tojson }};
+
+        // Function to display user email (passed from Flask context or URL param)
+        function displayUserEmail() {
+            const userEmailElement = document.getElementById('user-email');
+            const userEmailFromFlask = "{{ user_email }}"; // Rendered directly by Flask
+            if (userEmailFromFlask && userEmailFromFlask !== "") {
+                userEmailElement.textContent = userEmailFromFlask;
+            } else {
+                // Fallback, though Flask should always provide this
+                userEmailElement.textContent = 'Guest';
+            }
+        }
+
+        // Function to display server-side messages
+        function handleServerResponse(responseMessage) {
+            const statusMessageBox = document.getElementById('status-message-box');
+            const statusMessageText = document.getElementById('status-message-text');
+
+            // Clear previous messages
+            statusMessageBox.classList.add('hidden');
+            statusMessageBox.classList.remove('message-box-success', 'message-box-error');
+
+            let messageType = responseMessage.message_type || 'info';
+            let messageText = responseMessage.message_text || 'An unknown message occurred.';
+
+            if (messageType && messageText) {
+                statusMessageText.textContent = decodeURIComponent(messageText);
+                statusMessageBox.classList.remove('hidden');
+                if (messageType === 'success') {
+                    statusMessageBox.classList.add('message-box-success');
+                } else if (messageType === 'error') {
+                    statusMessageBox.classList.add('message-box-error');
+                }
+                // Auto-hide after 5 seconds
+                setTimeout(() => {
+                    statusMessageBox.classList.add('hidden');
+                }, 5000);
+            }
+        }
+
+        // Generic modal functions
+        function showModal(title, message, formToShowId = null) {
+            const modal = document.getElementById('password-reset-modal');
+            document.getElementById('reset-modal-title').textContent = title;
+            document.getElementById('reset-modal-message').textContent = message;
+
+            document.getElementById('request-reset-form').classList.add('hidden');
+            document.getElementById('set-new-password-form').classList.add('hidden');
+
+            if (formToShowId) {
+                document.getElementById(formToShowId).classList.remove('hidden');
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function hideModal() {
+            document.getElementById('password-reset-modal').classList.add('hidden');
+            document.getElementById('reset-modal-title').textContent = '';
+            document.getElementById('reset-modal-message').textContent = '';
+            // Clear form fields when modal is hidden
+            document.getElementById('reset_email').value = '';
+            document.getElementById('new_password').value = '';
+            document.getElementById('confirm_new_password').value = '';
+            document.getElementById('reset_token_hidden').value = '';
+        }
+
+        function showSpinner(spinnerElement, show) {
+            if (show) {
+                spinnerElement.classList.remove('hidden');
+            } else {
+                spinnerElement.classList.add('hidden');
+            }
+        }
+
+        // Tab switching logic (client-side)
+        function changeTab(tabName) {
+            // Hide all tab content sections
+            document.querySelectorAll('.tab-content').forEach(tabContent => {
+                tabContent.classList.add('hidden');
+            });
+
+            // Show the selected tab content section
+            document.getElementById(`${tabName}-section`).classList.remove('hidden');
+
+            // Deactivate all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Activate the clicked tab button
+            document.querySelector(`.tab-button[onclick="changeTab('${tabName}')"]`).classList.add('active');
+
+            // Update URL in browser history without reloading the page
+            history.pushState(null, '', `/dashboard?view=${tabName}`);
+
+            // Special handling for question management tab to render overview
+            if (tabName === 'questions') {
+                renderCategoryOverview();
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            displayUserEmail();
+            // Handle messages passed via URL parameters on page load
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('message_type') && urlParams.has('message_text')) {
+                handleServerResponse({
+                    message_type: urlParams.get('message_type'),
+                    message_text: urlParams.get('message_text')
+                });
+                // Clear URL parameters after displaying message to prevent re-display on refresh
+                const newUrl = window.location.pathname + window.location.search.replace(/([?&])message_type=[^&]*(&message_text=[^&]*)?/, '');
+                history.replaceState({}, document.title, newUrl);
+            }
+
+            // Check for password reset action in URL (from email link)
+            const action = urlParams.get('action');
+            const resetToken = urlParams.get('token');
+            if (action === 'reset_password' && resetToken) {
+                document.getElementById('reset_token_hidden').value = resetToken;
+                showModal('Set New Password', 'Please enter and confirm your new password.', 'set-new-password-form');
+                // Remove the action and token from URL to prevent re-triggering on refresh
+                history.replaceState({}, document.title, window.location.pathname + window.location.search.replace(/([?&])action=[^&]*(&token=[^&]*)?/, ''));
+            }
+
+            // Set initial tab based on URL param or default to 'profile'
+            const initialView = urlParams.get('view') || 'profile';
+            changeTab(initialView);
+        });
+
+        // Event listener for "Reset Password" button in Profile section
+        document.getElementById('reset-password-btn').addEventListener('click', function() {
+            // Pre-fill email from the displayed profile email
+            document.getElementById('reset_email').value = document.getElementById('user-email').textContent;
+            showModal('Request Password Reset', 'Enter your registered email to receive a password reset link.', 'request-reset-form');
+        });
+
+        // Event listener for modal close button
+        document.getElementById('reset-modal-close-btn').addEventListener('click', hideModal);
+
+        // Handle "Request Reset Link" form submission
+        document.getElementById('request-reset-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const email = document.getElementById('reset_email').value;
+            const spinner = document.getElementById('request-reset-spinner');
+            showSpinner(spinner, true);
+            document.getElementById('request-reset-btn').disabled = true;
+
+            try {
+                const response = await fetch('/forgot_password_request', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email })
+                });
+                const result = await response.json();
+                handleServerResponse({ message_type: result.type, message_text: result.message });
+                hideModal(); // Hide modal after request
+            } catch (error) {
+                console.error('Error requesting password reset:', error);
+                handleServerResponse({ message_type: 'error', message_text: `Network error: ${error.message}. Please try again.` });
+            } finally {
+                showSpinner(spinner, false);
+                document.getElementById('request-reset-btn').disabled = false;
+            }
+        });
+
+        // Handle "Set New Password" form submission
+        document.getElementById('set-new-password-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const token = document.getElementById('reset_token_hidden').value;
+            const newPassword = document.getElementById('new_password').value;
+            const confirmNewPassword = document.getElementById('confirm_new_password').value;
+            const spinner = document.getElementById('set-password-spinner');
+            showSpinner(spinner, true);
+            document.getElementById('set-password-btn').disabled = true;
+
+            try {
+                const response = await fetch('/reset_password_perform', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        token: token,
+                        new_password: newPassword,
+                        confirm_new_password: confirmNewPassword
+                    })
+                });
+                const result = await response.json();
+                handleServerResponse({ message_type: result.type, message_text: result.message });
+                hideModal(); // Hide modal after password update
+            } catch (error) {
+                console.error('Error setting new password:', error);
+                handleServerResponse({ message_type: 'error', message_text: `Network error: ${error.message}. Please try again.` });
+            } finally {
+                showSpinner(spinner, false);
+                document.getElementById('set-password-btn').disabled = false;
+            }
+        });
+
+
+        // Admin User Management JavaScript
+        // This function needs to be defined BEFORE it's called in editUser buttons
+        function editUser(email, fullname, role) {
+            document.getElementById('user_email').value = email;
+            document.getElementById('user_email').readOnly = true; // Prevent changing email for existing user
+            document.getElementById('user_fullname').value = fullname;
+            document.getElementById('user_password').value = ''; // Clear password, user must re-enter if changing
+            document.getElementById('user_password').placeholder = 'Leave blank to keep current password'; // Update placeholder
+            document.getElementById('user_role').value = role;
+            handleServerResponse({ message_type: 'info', message_text: `Editing user: ${fullname} (${email}). Leave password blank to keep current.` });
+        }
+
+        async function deleteUser(userEmail) {
+            // Using browser's native confirm as requested by the original file's behavior
+            const confirmation = confirm(`Are you sure you want to delete user: ${userEmail}? This action cannot be undone.`);
+            if (!confirmation) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/admin/users/delete/${encodeURIComponent(userEmail)}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                const result = await response.json();
+
+                if (response.ok) {
+                    handleServerResponse({ message_type: result.type, message_text: result.message });
+                    setTimeout(() => window.location.reload(), 1500); // Reload to update table
+                } else {
+                    handleServerResponse({ message_type: result.type, message_text: `Error deleting user: ${result.message || 'Unknown error'}` });
+                }
+            } catch (error) {
+                console.error('Error in deleteUser:', error);
+                handleServerResponse({ message_type: 'error', message_text: `Network error deleting user: ${error.message}` });
+            }
+        }
+
+        document.getElementById('clear-user-form-btn').addEventListener('click', function() {
+            document.getElementById('user_email').value = '';
+            document.getElementById('user_email').readOnly = false; // Make email editable for new user
+            document.getElementById('user_fullname').value = '';
+            document.getElementById('user_password').value = '';
+            document.getElementById('user_password').placeholder = 'Password'; // Reset placeholder
+            document.getElementById('user_role').value = 'reviewer'; // Reset to default
+            handleServerResponse({ message_type: 'info', message_text: 'User form cleared.' });
+        });
+
+        document.getElementById('user-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        // This form sends application/x-www-form-urlencoded
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams(data)
+                });
+                const result = await response.json();
+
+                if (response.ok) {
+                    handleServerResponse({ message_type: result.type, message_text: result.message });
+                    document.getElementById('clear-user-form-btn').click(); // Clear form
+                    setTimeout(() => window.location.reload(), 1500); // Reload to update table
+                } else {
+                    handleServerResponse({ message_type: result.type, message_text: `Error saving user: ${result.message || 'Unknown error'}` });
+                }
+            } catch (error) {
+                console.error('Error saving user:', error);
+                handleServerResponse({ message_type: 'error', message_text: `Network error saving user: ${error.message}` });
+            }
+        });
+
+
+        // Admin Question Management JavaScript
+        // Function to render the overview of categories
+        function renderCategoryOverview() {
+            const container = document.getElementById('question-bank-container');
+            container.innerHTML = ''; // Clear previous content
+
+            if (Object.keys(allQuestionData).length === 0) {
+                container.innerHTML = `<p class="py-4 px-6 text-center text-gray-500">No question categories loaded yet. Ensure JSON files are in 'question_bank' directory.</p>`;
+                return;
+            }
+
+            const categoriesGrid = document.createElement('div');
+            categoriesGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4';
+
+            for (const categoryName in allQuestionData) {
+                const questionCount = allQuestionData[categoryName].length;
+                const categoryCard = document.createElement('div');
+                categoryCard.className = 'category-card';
+                categoryCard.innerHTML = `
+                    <h4 class="text-xl font-bold text-gray-800">${categoryName}</h4>
+                    <p class="text-gray-600">${questionCount} questions</p>
+                `;
+                // Attach event listener using onclick directly to preserve current style
+                categoryCard.onclick = () => showCategoryQuestions(categoryName);
+                categoriesGrid.appendChild(categoryCard);
+            }
+            container.appendChild(categoriesGrid);
+        }
+
+        // Function to display questions for a specific category
+        function showCategoryQuestions(categoryName) {
+            const container = document.getElementById('question-bank-container');
+            container.innerHTML = ''; // Clear previous content
+
+            const questionsInCategory = allQuestionData[categoryName] || [];
+
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'flex justify-between items-center mb-4';
+            headerDiv.innerHTML = `
+                <h4 class="text-xl font-bold text-gray-800">Category: ${categoryName} (${questionsInCategory.length} questions)</h4>
+                <button onclick="goBackToCategories()" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-150">
+                    &larr; Back to All Categories
+                </button>
+            `;
+            container.appendChild(headerDiv);
+
+            if (questionsInCategory.length === 0) {
+                container.innerHTML += `<p class="py-4 px-6 text-center text-gray-500">No questions found in this category.</p>`;
+                return;
+            }
+
+            const tableDiv = document.createElement('div');
+            tableDiv.className = 'overflow-x-auto category-questions-table';
+            tableDiv.innerHTML = `
+                <table class="min-w-full bg-white rounded-lg shadow-md">
+                    <thead>
+                        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                            <th class="py-3 px-6 text-left">ID</th>
+                            <th class="py-3 px-6 text-left">Title</th>
+                            <th class="py-3 px-6 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-700 text-sm font-light" id="detailed-questions-table-body">
+                    </tbody>
+                </table>
+            `;
+            container.appendChild(tableDiv);
+
+            const tableBody = document.getElementById('detailed-questions-table-body');
+            questionsInCategory.forEach(question => {
+                const row = `
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-3 px-6 text-left whitespace-nowrap">${question.id}</td>
+                        <td class="py-3 px-6 text-left">${question.title}</td>
+                        <td class="py-3 px-6 text-left">
+                            <button onclick="editQuestion('${question.id}', '${categoryName}')"
+                                    class="text-blue-500 hover:text-blue-700 font-semibold mr-2">Edit</button>
+                            <button onclick="deleteQuestion('${question.id}', '${categoryName}')"
+                                    class="text-red-500 hover:text-red-700 font-semibold">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // Function to go back to category overview
+        function goBackToCategories() {
+            renderCategoryOverview();
+        }
+
+        async function editQuestion(questionId, category) {
+            try {
+                // Modified to include category in the URL for fetching
+                const response = await fetch(`/admin/questions/get/${questionId}?category=${encodeURIComponent(category)}`);
+                const questionData = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('question_id').value = questionData.id;
+                    document.getElementById('category').value = questionData.category || 'misc';
+                    document.getElementById('title').value = questionData.title;
+                    document.getElementById('description').value = questionData.description;
+                    document.getElementById('language').value = questionData.language; // Assuming Flask returns this directly
+                    document.getElementById('starter_code').value = questionData.starter_code;
+                    document.getElementById('sample_test_cases').value = JSON.stringify(JSON.parse(questionData.sample_test_cases || '[]'), null, 2);
+                    document.getElementById('full_test_cases').value = JSON.stringify(JSON.parse(questionData.test_cases || '[]'), null, 2);
+
+                    document.getElementById('question-form-action').value = 'update';
+                    document.querySelector('#question-form button[type="submit"]').textContent = 'Update Question';
+                    handleServerResponse({ message_type: 'info', message_text: `Editing question: ${questionData.title} (${questionData.id}).` });
+
+                    // Scroll to the form
+                    document.getElementById('questions-section').scrollIntoView({ behavior: 'smooth' });
+
+                    // Ensure the 'questions' tab is active if we navigated from another view (e.g., direct edit link)
+                    changeTab('questions');
+
+                } else {
+                    handleServerResponse({ message_type: 'error', message_text: 'Error fetching question details: ' + (questionData.message || 'Unknown error') });
+                }
+            } catch (error) {
+                console.error('Error in editQuestion:', error);
+                handleServerResponse({ message_type: 'error', message_text: `Network error fetching question details: ${error.message}` });
+            }
+        }
+
+        async function deleteQuestion(questionId, category) {
+            // Use browser's native confirm as requested by the original file's behavior
+            const confirmation = confirm(`Are you sure you want to delete question ID: ${questionId} from category ${category}? This action cannot be undone.`);
+            if (!confirmation) {
+                return;
+            }
+
+            try {
+                // Modified to include category in the URL for deleting
+                const response = await fetch(`/admin/questions/delete/${questionId}?category=${encodeURIComponent(category)}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                const result = await response.json();
+
+                if (response.ok) {
+                    handleServerResponse({ message_type: result.type, message_text: result.message });
+                    // Remove the question from allQuestionData and re-render current view
+                    if (allQuestionData[category]) {
+                        allQuestionData[category] = allQuestionData[category].filter(q => q.id !== questionId);
+                    }
+                    // Re-render the current category view or overview
+                    if (document.getElementById('question-bank-container').querySelector('.category-questions-table')) {
+                        showCategoryQuestions(category); // If in detailed category view, update it
+                    } else {
+                        renderCategoryOverview(); // Otherwise, update the category overview
+                    }
+                } else {
+                    handleServerResponse({ message_type: result.type, message_text: `Error deleting question: ${result.message || 'Unknown error'}` });
+                }
+            } catch (error) {
+                console.error('Error in deleteQuestion:', error);
+                handleServerResponse({ message_type: 'error', message_text: `Network error deleting question: ${error.message}` });
+            }
+        }
+
+        document.getElementById('clear-question-form-btn').addEventListener('click', function() {
+            document.getElementById('question_id').value = '';
+            document.getElementById('category').value = 'misc';
+            document.getElementById('title').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('language').value = 'python';
+            document.getElementById('starter_code').value = '';
+            document.getElementById('sample_test_cases').value = '[]';
+            document.getElementById('full_test_cases').value = '[]';
+            document.getElementById('question-form-action').value = 'add';
+            document.querySelector('#question-form button[type="submit"]').textContent = 'Save Question';
+            handleServerResponse({ message_type: 'info', message_text: 'Question form cleared.' });
+        });
+
+        // Handle form submission for adding/updating questions
+        document.getElementById('question-form').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                // Parse JSON string fields back into objects
+                data.sample_test_cases = JSON.parse(data.sample_test_cases || '[]');
+                data.full_test_cases = JSON.parse(data.full_test_cases || '[]');
+
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json' // Change to application/json
+                    },
+                    body: JSON.stringify(data) // Send as JSON string
+                });
+                const result = await response.json();
+
+                if (response.ok) {
+                    handleServerResponse({ message_type: result.type, message_text: result.message });
+                    // Clear the form after successful submission/update
+                    document.getElementById('clear-question-form-btn').click();
+                    // Re-render the question overview after save
+                    // We need a separate API endpoint to fetch all questions for JS to update its `allQuestionData`
+                    // For now, a full page reload is the simplest way to get updated `allQuestionData`
+                    window.location.reload();
+                } else {
+                    handleServerResponse({ message_type: result.type, message_text: `Error saving question: ${result.message || 'Unknown error'}` });
+                }
+            } catch (error) {
+                console.error('Error saving question:', error);
+                handleServerResponse({ message_type: 'error', message_text: `Network error saving question: ${error.message}` });
+            }
+        });
+
+        // Admin User Management JavaScript
+        // This function needs to be defined BEFORE it's called in editUser buttons
+        function editUser(email, fullname, role) {
+            document.getElementById('user_email').value = email;
+            document.getElementById('user_email').readOnly = true; // Prevent changing email for existing user
+            document.getElementById('user_fullname').value = fullname;
+            document.getElementById('user_password').value = ''; // Clear password, user must re-enter if changing
+            document.getElementById('user_password').placeholder = 'Leave blank to keep current password'; // Update placeholder
+            document.getElementById('user_role').value = role;
+            handleServerResponse({ message_type: 'info', message_text: `Editing user: ${fullname} (${email}). Leave password blank to keep current.` });
+        }
+
+        // Function to copy text to clipboard
+        function copyLink(link) {
+            // Using document.execCommand('copy') for better iframe compatibility
+            const textarea = document.createElement('textarea');
+            textarea.value = link;
+            textarea.style.position = 'absolute';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                handleServerResponse({ message_type: 'success', message_text: 'Link copied to clipboard!' });
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+                handleServerResponse({ message_type: 'error', message_text: 'Failed to copy link. Please copy manually.' });
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+
+        // Function to download test report PDF
+        async function downloadTestReport(candidateUserId, candidateFullName) {
+            try {
+                const response = await fetch(`/api/test_report_pdf/${candidateUserId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/pdf'
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    alert(`Failed to download PDF report: ${errorText}`); // Using alert as per existing code
+                    console.error('PDF download error:', response.status, errorText);
+                    return;
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                // Sanitize full name for filename
+                const sanitizedFullName = candidateFullName.replace(/[^a-zA-Z0-9_.-]/g, '_');
+                a.download = `Test_Report_${sanitizedFullName}_${new Date().toISOString().slice(0,10)}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                a.remove();
+            } catch (error) {
+                alert(`An error occurred during PDF download: ${error.message}`); // Using alert as per existing code
+                console.error('PDF download general error:', error);
+            }
+        }
+
+        // New function to delete generated secure links
+        async function deleteGeneratedLink(linkToken) {
+            const confirmation = confirm(`Are you sure you want to delete this link? This action cannot be undone.`);
+            if (!confirmation) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/admin/links/delete/${linkToken}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                const result = await response.json();
+
+                if (response.ok) {
+                    handleServerResponse({ message_type: result.type, message_text: result.message });
+                    // Reload the page to update the links table after successful deletion
+                    setTimeout(() => window.location.reload(), 1500);
+                } else {
+                    handleServerResponse({ message_type: result.type, message_text: `Error deleting link: ${result.message || 'Unknown error'}` });
+                }
+            } catch (error) {
+                console.error('Error in deleteGeneratedLink:', error);
+                handleServerResponse({ message_type: 'error', message_text: `Network error deleting link: ${error.message}` });
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Submission Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .content-container {
+            max-width: 900px;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        @media (max-width: 640px) {
+            .content-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+        .code-block {
+            background-color: #1f2937;
+            color: #f9fafb;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            white-space: pre-wrap;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+        .test-case-passed {
+            background-color: #d1fae5;
+            border-left: 4px solid #34d399;
+            color: #065f46;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.375rem;
+            text-align: left;
+        }
+        .test-case-failed {
+            background-color: #fee2e2;
+            border-left: 4px solid #ef4444;
+            color: #991b1b;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.375rem;
+            text-align: left;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen font-inter bg-gray-100">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg p-4 z-20">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="/static/lyptus-logo.jpg" alt="Lyptus Logo" class="h-10">
+                <h1 class="text-2xl font-bold text-white tracking-wide">Lyptus Assessments</h1>
+<!--                {% if session['user_role'] in ['admin', 'reviewer'] %}-->
+<!--                <button onclick="goBack()"-->
+<!--                        class="ml-4 px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-md shadow-md transition duration-150 ease-in-out">-->
+<!--                    &larr; Back-->
+<!--                </button>-->
+<!--                <script>-->
+<!--                    function goBack() {-->
+<!--                        if (document.referrer && !document.referrer.includes('submission_success')) {-->
+<!--                            window.history.back();-->
+<!--                        } else {-->
+<!--                            // fallback to a review panel or safe page for admins-->
+<!--                            window.location.href = '/review_panel';  // Change to appropriate fallback-->
+<!--                        }-->
+<!--                    }-->
+<!--                </script>-->
+<!--                {% endif %}-->
+            </div>
+            <nav>
+                {% if session['role'] in ['admin', 'reviewer'] %}
+                <ul class="flex space-x-4">
+                    <li><a href="/dashboard" class="hover:text-blue-200 transition duration-150 ease-in-out">Dashboard</a></li>
+                    <li><a href="/logout" class="hover:text-blue-200 transition duration-150 ease-in-out">Logout</a></li>
+                </ul>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow overflow-y-auto pt-20 pb-16 flex items-start justify-center p-4">
+        <div class="content-container">
+            {% if message %}
+                <div class="text-red-600 mb-4">{{ message }}</div>
+            {% else %}
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-6">Test Submission Report</h1>
+
+                {% if user_email %}
+                <p class="text-lg text-gray-700 mb-4">Report for: <span class="font-semibold text-blue-600">{{ user_email }}</span></p>
+                {% endif %}
+
+                <div class="text-left text-gray-700 mb-6">
+                    <h2 class="text-xl font-semibold mb-2">Candidate Information</h2>
+                    <p><strong>Name:</strong> {{ candidate_info.full_name }}</p>
+                    <p><strong>Email:</strong> {{ candidate_info.email }}</p>
+                    <p><strong>Phone:</strong> {{ candidate_info.phone_number }}</p>
+                    <p><strong>Started:</strong> {{ candidate_info.test_started_at }}</p>
+                    <p><strong>Completed:</strong> {{ 'Yes' if candidate_info.test_completed else 'No' }}</p>
+                </div>
+
+                <div class="text-left">
+                    <h2 class="text-xl font-semibold text-gray-700 mb-4">Question Details and Results</h2>
+                    {% if question_data_list or detailed_questions_data %}
+                        {% for question in question_data_list or detailed_questions_data %}
+                        <div class="bg-white p-6 rounded-lg shadow mb-6 border border-gray-200">
+                            <h3 class="text-lg font-bold text-gray-800 mb-2">Question {{ loop.index }}: {{ question.title }}</h3>
+                            <p class="text-gray-700 mb-3">{{ question.description }}</p>
+
+                            <h4 class="text-md font-semibold text-gray-700 mt-4 mb-2">Submitted Code:</h4>
+                            <pre class="code-block">{{ question.submitted_code or question.answer_code }}</pre>
+
+                            <h4 class="text-md font-semibold text-gray-700 mt-4 mb-2">Test Case Results:</h4>
+                            {% if question.test_case_results or question.test_results %}
+                                {% for result in question.test_case_results or question.test_results %}
+                                <div class="{% if result.passed %}test-case-passed{% else %}test-case-failed{% endif %}">
+                                    <strong>Test Case {{ loop.index }}: {{ 'PASSED' if result.passed else 'FAILED' }}</strong>
+                                    <p><strong>Input:</strong> {{ result.input }}</p>
+                                    <p><strong>Expected Output:</strong> {{ result.expected_output }}</p>
+                                    <p><strong>Actual Output:</strong> {{ result.actual_output }}</p>
+                                    {% if result.error %}<p class="text-red-700"><strong>Error:</strong> {{ result.error }}</p>{% endif %}
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-gray-600">No test results available for this question.</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-gray-600">No detailed question data available for this session.</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-gray-900 text-gray-300 p-4 text-center z-20 shadow-lg">
+        <div class="container mx-auto">
+            <p class="text-sm">
+                &copy; 2025 Lyptus Inc. All rights reserved.
+                <span class="block mt-1 md:inline md:mt-0 md:ml-2">Your premier platform for technical skill assessments.</span>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

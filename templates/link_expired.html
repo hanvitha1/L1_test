@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Link Expired</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Base styles for a dark, mysterious background with subtle gradient */
+        body {
+            background: linear-gradient(to bottom, #1a202c, #0d121c); /* Dark blue to even darker blue gradient */
+            font-family: 'Inter', sans-serif; /* Modern font */
+            position: relative;
+            overflow: hidden; /* Hide overflowing animations */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+            align-items: center;
+            justify-content: center;
+            color: #e2e8f0; /* Light text color */
+        }
+
+        /* Starfield background animation */
+        .starfield {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, #ffffff 1px, transparent 1px);
+            background-size: 150px 150px; /* Spacing of stars */
+            animation: starfieldPan 120s linear infinite;
+            opacity: 0.3; /* Subtle stars */
+            z-index: 1;
+        }
+
+        @keyframes starfieldPan {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        /* Falling Silhouette (now an abstract shape or icon) */
+        .falling-silhouette {
+            position: absolute;
+            font-size: 80px; /* Larger icon */
+            color: rgba(255, 255, 255, 0.6); /* White, semi-transparent */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Subtle glow */
+            z-index: 10;
+            animation: continuousFall 10s linear infinite;
+        }
+
+        /* Using a data attribute for content to allow easy emoji/SVG character change */
+        .falling-silhouette[data-icon]:before {
+            content: attr(data-icon);
+        }
+
+        @keyframes continuousFall {
+            0% { top: -20%; opacity: 0; transform: translateX(-50%) rotate(0deg) scale(0.8); }
+            10% { opacity: 0.8; }
+            90% { top: 120%; opacity: 0.8; transform: translateX(-50%) rotate(720deg) scale(1.2); }
+            100% { top: 120%; opacity: 0; transform: translateX(-50%) rotate(720deg) scale(0.8); }
+        }
+
+        /* Birds (now abstract flying elements or icons) */
+        .bird {
+            position: absolute;
+            font-size: 25px; /* Smaller icons */
+            color: rgba(147, 197, 253, 0.7); /* Light blue, semi-transparent */
+            z-index: 9;
+            opacity: 0.8;
+            animation: flyAcross 20s linear infinite;
+        }
+
+        .bird[data-icon]:before {
+            content: attr(data-icon);
+        }
+
+        .bird:nth-child(2) { top: 30%; left: -10%; animation-delay: 0s; animation-duration: 18s; }
+        .bird:nth-child(3) { top: 40%; left: -5%; animation-delay: 5s; animation-duration: 22s; }
+        .bird:nth-child(4) { top: 50%; left: -15%; animation-delay: 10s; animation-duration: 20s; }
+        .bird:nth-child(5) { top: 35%; left: -20%; animation-delay: 3s; animation-duration: 19s; }
+        .bird:nth-child(6) { top: 45%; left: -10%; animation-delay: 8s; animation-duration: 21s; }
+
+        @keyframes flyAcross {
+            0% { left: -20%; transform: translateY(0) rotateY(0deg); }
+            49% { transform: translateY(-20px) rotateY(0deg); } /* Fly left-to-right */
+            50% { left: 120%; transform: translateY(-20px) rotateY(180deg); } /* Flip at midpoint */
+            51% { left: 120%; transform: translateY(-20px) rotateY(180deg); }
+            100% { left: -20%; transform: translateY(0) rotateY(180deg); } /* Fly right-to-left */
+        }
+
+        /* Fading Shapes (replacing fighting humans) */
+        .fading-shape {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.1); /* Very subtle white */
+            border-radius: 50%; /* Default to circle, can be overridden */
+            z-index: 7;
+            animation: fadeAndFloat 25s ease-in-out infinite alternate;
+        }
+
+        .fading-shape:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .fading-shape:nth-child(2) { top: 80%; left: 20%; animation-delay: 5s; width: 70px; height: 70px; border-radius: 0; transform: rotate(45deg); } /* Square */
+        .fading-shape:nth-child(3) { top: 25%; left: 80%; animation-delay: 10s; background-color: rgba(147, 197, 253, 0.15); }
+        .fading-shape:nth-child(4) { top: 60%; left: 90%; animation-delay: 15s; width: 40px; height: 40px; }
+
+        @keyframes fadeAndFloat {
+            0% { opacity: 0; transform: translateY(0) scale(0.8); }
+            50% { opacity: 0.2; transform: translateY(-20px) scale(1); }
+            100% { opacity: 0; transform: translateY(0) scale(0.8); }
+        }
+
+        /* New: Shooting Star */
+        .shooting-star {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff, 0 0 20px #fff;
+            animation: shoot 3s linear infinite;
+            z-index: 15;
+            opacity: 0;
+        }
+
+        .shooting-star:nth-child(1) { top: 5%; left: 10%; animation-delay: 1s; animation-duration: 2.5s; }
+        .shooting-star:nth-child(2) { top: 15%; left: 80%; animation-delay: 4s; animation-duration: 3s; }
+        .shooting-star:nth-child(3) { top: 25%; left: 30%; animation-delay: 7s; animation-duration: 2s; }
+
+        @keyframes shoot {
+            0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translate(200px, 200px) scale(1.2); opacity: 0; }
+        }
+
+        /* New: Floating Orb */
+        .floating-orb {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(99, 179, 237, 0.3); /* Light blue, semi-transparent */
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(99, 179, 237, 0.5);
+            animation: floatOrb 15s ease-in-out infinite alternate;
+            z-index: 8;
+        }
+
+        .floating-orb:nth-child(1) { top: 70%; left: 15%; animation-delay: 2s; animation-duration: 14s; }
+        .floating-orb:nth-child(2) { top: 20%; left: 60%; animation-delay: 8s; animation-duration: 16s; width: 30px; height: 30px; }
+        .floating-orb:nth-child(3) { top: 40%; left: 5%; animation-delay: 12s; animation-duration: 13s; }
+
+        @keyframes floatOrb {
+            0% { transform: translateY(0) translateX(0) scale(1); }
+            50% { transform: translateY(-30px) translateX(20px) scale(1.1); }
+            100% { transform: translateY(0) translateX(0) scale(1); }
+        }
+
+
+        /* Mountains (subtle background element) */
+        .mountains {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 35%;
+            background-image: url('https://placehold.co/1200x400/0f172a/0f172a'); /* Solid dark color placeholder */
+            background-size: cover;
+            background-position: bottom;
+            z-index: 5;
+            animation: mountainPan 90s linear infinite;
+        }
+
+        @keyframes mountainPan {
+            0% { background-position: 0% bottom; }
+            100% { background-position: 100% bottom; }
+        }
+
+        /* Content Box Styling */
+        .content-box {
+            position: relative;
+            z-index: 20;
+            background-color: rgba(45, 55, 72, 0.95); /* Darker, less transparent for better readability */
+            padding: 3rem; /* More padding */
+            border-radius: 1.5rem; /* More rounded corners */
+            max-width: 36rem; /* Slightly wider */
+            width: 90%; /* Responsive width */
+            text-align: center;
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.2), 0 8px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(71, 85, 105, 0.5); /* Subtle border */
+            animation: fadeInScale 1s ease-out forwards; /* Fade in and scale animation */
+        }
+
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .content-box h1 {
+            font-size: 3.5rem; /* Larger heading */
+            color: #63b3ed; /* Lighter blue for heading */
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(99, 179, 237, 0.5); /* Glowing effect */
+        }
+
+        .content-box p {
+            font-size: 1.25rem; /* Larger paragraph text */
+            color: #cbd5e0; /* Off-white text */
+            line-height: 1.6;
+        }
+
+        /* Ensure blur overlay is on top for security features */
+        #screenshot-blur {
+            z-index: 99999;
+        }
+    </style>
+    <script>
+        // Block browser back button
+        history.pushState(null, '', location.href);
+        window.addEventListener('popstate', function () {
+            history.pushState(null, '', location.href);
+        });
+
+        // Clear any local/session storage (optional for extra safety)
+        localStorage.clear();
+        sessionStorage.clear();
+    </script>
+    <script>
+        // Disable copy, paste, cut, right-click, text selection
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.oncopy = document.body.oncut = document.body.onpaste = (e) => e.preventDefault();
+            document.body.oncontextmenu = () => false;
+            document.body.onselectstart = () => false;
+            document.body.style.userSelect = 'none';
+            document.body.style.webkitUserSelect = 'none';
+        });
+
+        // Blur screen if tab is hidden (e.g., during screenshot)
+        document.addEventListener('visibilitychange', () => {
+            let existing = document.getElementById('screenshot-blur');
+            if (!existing) {
+                const blurOverlay = document.createElement('div');
+                blurOverlay.id = 'screenshot-blur';
+                blurOverlay.style.position = 'fixed';
+                blurOverlay.style.top = '0';
+                blurOverlay.style.left = '0';
+                blurOverlay.style.width = '100vw';
+                blurOverlay.style.height = '100vh';
+                blurOverlay.style.zIndex = '9999';
+                blurOverlay.style.backdropFilter = 'blur(20px)';
+                blurOverlay.style.pointerEvents = 'none';
+                blurOverlay.style.display = 'none';
+                document.body.appendChild(blurOverlay);
+            }
+            const blur = document.getElementById('screenshot-blur');
+            if (document.visibilityState === 'hidden') {
+                blur.style.display = 'block';
+            } else {
+                blur.style.display = 'none';
+            }
+        });
+    </script>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen">
+
+    <!-- Starfield Background -->
+    <div class="starfield"></div>
+
+    <!-- Falling Silhouette (using an abstract SVG character) -->
+    <div class="falling-silhouette" style="left: 20%;" data-icon="&#x2B07;"></div> <!-- Downwards Arrow -->
+    <div class="falling-silhouette" style="left: 80%; animation-delay: 5s; animation-duration: 12s;" data-icon="&#x2728;"></div> <!-- Sparkle -->
+
+    <!-- Birds (using bird emojis) -->
+    <div class="bird" style="top: 30%; left: -10%;" data-icon="&#128038;"></div>
+    <div class="bird" style="top: 40%; left: -5%; animation-delay: 5s; animation-duration: 22s;" data-icon="&#128038;"></div>
+    <div class="bird" style="top: 50%; left: -15%; animation-delay: 10s; animation-duration: 20s;" data-icon="&#128038;"></div>
+    <div class="bird" style="top: 35%; left: -20%; animation-delay: 3s; animation-duration: 19s;" data-icon="&#128038;"></div>
+    <div class="bird" style="top: 45%; left: -10%; animation-delay: 8s; animation-duration: 21s;" data-icon="&#128038;"></div>
+
+    <!-- Fading Shapes (abstract elements) -->
+    <div class="fading-shape" style="top: 10%; left: 10%;"></div>
+    <div class="fading-shape" style="top: 80%; left: 20%; animation-delay: 5s; width: 70px; height: 70px; border-radius: 0; transform: rotate(45deg);"></div>
+    <div class="fading-shape" style="top: 25%; left: 80%; animation-delay: 10s;"></div>
+    <div class="fading-shape" style="top: 60%; left: 90%; animation-delay: 15s; width: 40px; height: 40px;"></div>
+
+    <!-- New: Shooting Stars -->
+    <div class="shooting-star" style="top: 5%; left: 10%;"></div>
+    <div class="shooting-star" style="top: 15%; left: 80%; animation-delay: 4s; animation-duration: 3s;"></div>
+    <div class="shooting-star" style="top: 25%; left: 30%; animation-delay: 7s; animation-duration: 2s;"></div>
+
+    <!-- New: Floating Orbs -->
+    <div class="floating-orb" style="top: 70%; left: 15%;"></div>
+    <div class="floating-orb" style="top: 20%; left: 60%; animation-delay: 8s; animation-duration: 16s; width: 30px; height: 30px;"></div>
+    <div class="floating-orb" style="top: 40%; left: 5%; animation-delay: 12s; animation-duration: 13s;"></div>
+
+
+    <!-- Mountains (placeholder image) -->
+    <div class="mountains"></div>
+
+    <div class="content-box">
+        <h1 class="text-5xl font-bold mb-4">Link Expired</h1>
+        <p class="text-xl">
+            This link has been expired. Thank you for your interest! &#128532;
+        </p>
+    </div>
+</body>
+</html>

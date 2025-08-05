@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Submitted</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Base styles for fixed header/footer layout */
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #f0f4f8; /* Lighter, soft blue-gray background */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Main content container */
+        .completion-container {
+            flex-grow: 1; /* Allows it to take up remaining vertical space */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem; /* Consistent padding around the main content */
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        /* Card styling for the completion message */
+        .completion-card {
+            background-color: #ffffff;
+            padding: 3rem;
+            border-radius: 1.5rem; /* More rounded corners */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05); /* Softer, deeper shadow */
+            text-align: center;
+            max-width: 600px; /* Slightly wider card */
+            width: 100%;
+            border: 1px solid #e2e8f0; /* Subtle border */
+            transform: translateY(0); /* Base state for animation */
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+
+        .completion-card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Icon styling with animation */
+        .completion-icon {
+            font-size: 4.5rem; /* Larger icon */
+            margin-bottom: 2rem;
+            display: inline-block; /* For transform effects */
+            animation: bounceIn 0.8s ease-out; /* Animation on load */
+            color: #4CAF50; /* A vibrant green for success */
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+
+        /* Heading styles */
+        h1 {
+            font-size: 2.8rem; /* Larger heading */
+            font-weight: 800; /* Extra bold */
+            color: #1a202c; /* Darker text for prominence */
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05); /* Subtle text shadow */
+        }
+
+        /* Message text styles */
+        .completion-message {
+            font-size: 1.25rem; /* Larger message text */
+            color: #4a5568; /* Softer gray */
+            line-height: 1.6;
+            max-width: 450px; /* Constrain line length for readability */
+            margin: 0 auto;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .completion-card {
+                padding: 2rem;
+                border-radius: 1rem;
+            }
+            .completion-icon {
+                font-size: 3.5rem;
+                margin-bottom: 1rem;
+            }
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+            .completion-message {
+                font-size: 1rem;
+            }
+        }
+    </style>
+    <script>
+        // Prevent back navigation to this page
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+    </script>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg p-4 z-20">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <!-- Updated image source -->
+                <img src="/static/lyptus-logo.jpg" alt="Lyptus Logo" class="h-10">
+                <h1 class="text-2xl font-bold text-white tracking-wide">Lyptus Assessments</h1>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow flex items-center justify-center pt-20 pb-16">
+        <div class="completion-card">
+            <svg class="mx-auto h-20 w-20 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h1 class="text-4xl font-extrabold text-gray-800 mt-6 mb-4">Test Completed!</h1>
+                <div class="completion-icon">🎉</div>
+            <p class="text-lg text-gray-600 mb-6">
+                Thank you for completing the test. Your submission has been recorded.
+            </p>
+            <div class="text-left text-gray-700 space-y-2 mb-6">
+                <p><strong>Candidate Name:</strong> <span id="candidate-name">{{ name }}</span></p>
+                <p><strong>Candidate Email:</strong> <span id="candidate-email">{{ email }}</span></p>
+                <p><strong>Questions Answered:</strong> <span id="answered-questions-count">{{ answered_count }}</span></p>
+                <p class="text-md text-red-500 mt-4" id="expiry-message">
+                    This page will expire in <span id="countdown">10</span> seconds...
+                </p>
+            </div>
+            <p class="text-md text-gray-500">
+                You can now close this page. The test link has expired.
+            </p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-gray-900 text-gray-300 p-4 text-center z-20 shadow-lg">
+        <div class="container mx-auto">
+            <p class="text-sm">
+                &copy; 2025 Lyptus Inc. All rights reserved.
+                <span class="block mt-1 md:inline md:mt-0 md:ml-2">Your premier platform for technical skill assessments.</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('name');
+            const email = urlParams.get('email');
+            const answeredCount = urlParams.get('answered_count');
+
+            if (name) {
+                document.getElementById('candidate-name').textContent = decodeURIComponent(name);
+            } else {
+                document.getElementById('candidate-name').textContent = 'Candidate';
+            }
+
+            if (email) {
+                document.getElementById('candidate-email').textContent = decodeURIComponent(email);
+            } else {
+                document.getElementById('candidate-email').textContent = 'N/A';
+            }
+
+            if (answeredCount) {
+                document.getElementById('answered-questions-count').textContent = answeredCount;
+            } else {
+                document.getElementById('answered-questions-count').textContent = 'N/A';
+            }
+        });
+    </script>
+    <script>
+    window.addEventListener("DOMContentLoaded", function () {
+        fetch("/stop_recording", { method: "POST" });
+    });
+    </script>
+    <script>
+        // Countdown and auto-redirect
+        let countdown = 10;
+        const countdownElement = document.getElementById('countdown');
+
+        const timer = setInterval(() => {
+            countdown -= 1;
+            countdownElement.textContent = countdown;
+            if (countdown <= 0) {
+                clearInterval(timer);
+                window.location.href = "/link_expired";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

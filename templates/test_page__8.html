@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L1 Qualification Test</title>
+    <!-- Tailwind CSS CDN for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        // Prevent back navigation to this page after submit
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+
+        // Optional: prevent form resubmission on refresh
+        if (window.performance && window.performance.navigation.type === 1) {
+            // If this page was reloaded
+            // Note: This is a strict measure. '/link_expired' should be a page indicating the link is no longer valid.
+            const name = localStorage.getItem('candidate_name') || 'Candidate';
+            const email = localStorage.getItem('candidate_email') || 'N/A';
+            const answeredCount = localStorage.getItem('answered_questions_count') || '0';
+            location.href = '/link_expired'; // Redirect to a generic link expired page
+        }
+    </script>
+    <script>
+        // Global variables for media streams and recorders
+        let cameraStream, screenStream;
+        let webcamRecorder, screenRecorder;
+        let webcamChunks = [], screenChunks = [];
+        let acceptStartBtn; // Declare globally
+
+        /**
+         * Displays a custom modal message.
+         * @param {string} title - The title of the modal.
+         * @param {string} message - The message content.
+         * @param {boolean} isError - True if it's an error message, false otherwise.
+         * @param {function} onCloseCallback - Callback function to execute when the modal is closed.
+         */
+        function showCustomModal(title, message, isError = false, onCloseCallback = null) {
+            let modalOverlay = document.getElementById('custom-modal-overlay');
+            if (!modalOverlay) {
+                modalOverlay = document.createElement('div');
+                modalOverlay.id = 'custom-modal-overlay';
+                modalOverlay.className = 'fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-[1000] p-4';
+                modalOverlay.innerHTML = `
+                    <div class="bg-white rounded-xl shadow-2xl p-8 max-w-sm w-full text-center relative transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full">
+                        <h3 class="text-2xl font-bold mb-4 ${isError ? 'text-red-600' : 'text-gray-900'}" id="custom-modal-title"></h3>
+                        <p class="text-gray-700 mb-6" id="custom-modal-message"></p>
+                        <button type="button" id="custom-modal-close-btn" class="inline-flex justify-center rounded-xl border border-transparent bg-blue-600 px-6 py-3 text-lg font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out">
+                            OK
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(modalOverlay);
+            }
+
+            document.getElementById('custom-modal-title').textContent = title;
+            document.getElementById('custom-modal-message').textContent = message;
+            modalOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+
+            const closeButton = document.getElementById('custom-modal-close-btn');
+            const closeHandler = () => {
+                modalOverlay.classList.add('hidden');
+                document.body.style.overflow = 'auto'; // Restore scrolling
+                closeButton.removeEventListener('click', closeHandler);
+                modalOverlay.removeEventListener('click', overlayClickHandler); // Remove overlay listener
+                if (onCloseCallback) {
+                    onCloseCallback();
+                }
+            };
+            closeButton.addEventListener('click', closeHandler);
+
+            // Close modal if clicking outside content
+            const overlayClickHandler = (event) => {
+                if (event.target === modalOverlay) {
+                    closeHandler();
+                }
+            };
+            modalOverlay.addEventListener('click', overlayClickHandler);
+        }
+
+        /**
+         * Requests camera, microphone, and screen sharing permissions.
+         * @returns {Promise<boolean>} True if all permissions are granted, false otherwise.
+         */
+        async function requestMediaPermissions() {
+            try {
+                // Check if browser supports MediaDevices API
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !navigator.mediaDevices.getDisplayMedia) {
+                    showCustomModal("Browser Not Supported", "Your browser does not support the necessary media recording features. Please use a modern browser like Chrome or Edge.", true);
+                    return false;
+                }
+
+                // Request camera and microphone access
+                cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                console.log("✅ Camera and Microphone permissions granted.");
+
+                // Request screen sharing access
+                screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+                console.log("✅ Screen sharing permission granted.");
+
+                return true;
+            } catch (err) {
+                console.error("❌ Permission error:", err);
+                let errorMessage = "Please allow camera, microphone, and screen recording permissions to proceed.";
+                if (err.name === "NotAllowedError") {
+                    errorMessage = "Permissions denied. Please enable camera, microphone, and screen sharing in your browser settings.";
+                } else if (err.name === "NotFoundError") {
+                    errorMessage = "No camera or microphone found. Please ensure they are connected and enabled.";
+                }
+                showCustomModal("Permission Required", errorMessage, true, () => {
+                    // Optionally redirect or disable test start permanently
+                });
+                return false;
+            }
+        }
+
+        /**
+         * Initializes and starts MediaRecorders for webcam and screen.
+         */
+        function startMediaRecorders() {
+            if (!cameraStream || !screenStream) {
+                console.error("Cannot start recorders: Media streams not available.");
+                showCustomModal("Recording Error", "Failed to start recording. Please ensure camera, microphone, and screen permissions are granted.", true);
+                return;
+            }
+
+            // Initialize webcam recorder with explicit codecs
+            webcamRecorder = new MediaRecorder(cameraStream, { mimeType: 'video/webm; codecs=vp8,opus' });
+            webcamRecorder.ondataavailable = e => {
+                if (e.data.size > 0) webcamChunks.push(e.data);
+            };
+            webcamRecorder.onstop = () => {
+                console.log("Webcam recording stopped. Chunks collected.");
+            };
+
+            // Initialize screen recorder with explicit codecs
+            screenRecorder = new MediaRecorder(screenStream, { mimeType: 'video/webm; codecs=vp8,opus' });
+            screenRecorder.ondataavailable = e => {
+                if (e.data.size > 0) screenChunks.push(e.data);
+            };
+            screenRecorder.onstop = () => {
+                console.log("Screen recording stopped. Chunks collected.");
+            };
+
+            webcamRecorder.start();
+            screenRecorder.start();
+            console.log("📹 MediaRecorders started: Webcam and Screen.");
+        }
+
+        /**
+         * Stops all MediaRecorders and uploads the recorded data to the server.
+         * This function is designed to be called synchronously during page unload events.
+         * @param {string} candidateId - The ID of the candidate.
+         */
+        function stopAndUpload(candidateId) { // Removed async and Promise wrapper
+            if (!webcamRecorder || webcamRecorder.state === "inactive" || !screenRecorder || screenRecorder.state === "inactive") {
+                console.warn("Recorders not active or not initialized. Skipping upload.");
+                return;
+            }
+
+            // Stop both recorders. This will trigger ondataavailable events.
+            // These are asynchronous operations, but sendBeacon is designed to work
+            // even if the page is unloading.
+            if (webcamRecorder.state !== "inactive") webcamRecorder.stop();
+            if (screenRecorder.state !== "inactive") screenRecorder.stop();
+
+            // Create Blobs directly. sendBeacon is designed to handle data even if not fully flushed yet.
+            const webcamBlob = new Blob(webcamChunks, { type: 'video/webm' });
+            const screenBlob = new Blob(screenChunks, { type: 'video/webm' });
+
+            const formData = new FormData();
+            formData.append("candidate_id", candidateId);
+            formData.append("webcam", webcamBlob, "webcam.webm");
+            formData.append("screen", screenBlob, "screen.webm");
+            formData.append("early", "1"); // Flag to indicate an early/unexpected upload
+
+            console.log(`Attempting to upload recordings for candidate: ${candidateId}`);
+
+            // Use sendBeacon if supported, it's the most reliable for unload events
+            if (navigator.sendBeacon) {
+                const success = navigator.sendBeacon("/upload_recordings", formData);
+                if (success) {
+                    console.log("✅ Client-side recording upload initiated via sendBeacon.");
+                } else {
+                    console.error("❌ sendBeacon failed to queue the request. Falling back to fetch with keepalive.");
+                    // Fallback to fetch with keepalive if sendBeacon fails to queue
+                    fetch("/upload_recordings", {
+                        method: "POST",
+                        body: formData,
+                        keepalive: true
+                    }).catch(err => console.error("Fallback fetch upload failed:", err));
+                }
+            } else {
+                // Fallback to fetch with keepalive if sendBeacon is not supported
+                console.warn("navigator.sendBeacon not supported. Falling back to fetch with keepalive.");
+                fetch("/upload_recordings", {
+                    method: "POST",
+                    body: formData,
+                    keepalive: true
+                }).catch(err => console.error("Fallback fetch upload failed:", err));
+            }
+
+            // Stop tracks to release camera/mic/screen immediately
+            if (cameraStream) cameraStream.getTracks().forEach(track => track.stop());
+            if (screenStream) screenStream.getTracks().forEach(track => track.stop());
+            webcamChunks = []; // Clear chunks after upload attempt
+            screenChunks = [];
+        }
+
+
+        // Script to initiate recording when the page loads
+        window.addEventListener("DOMContentLoaded", async function () {
+            const candidateUserId = localStorage.getItem('candidateUserId');
+            const testDurationMinutes = parseFloat('{{test_time_limit_minutes}}') || 60;
+
+            if (!candidateUserId) {
+                showCustomModal("Error", "Unable to find candidate ID. Please restart the test from the registration link.", true, () => {
+                    window.location.href = "/link_expired";
+                });
+                return;
+            }
+
+            // This part initiates the SERVER-SIDE recording process
+            try {
+                const response = await fetch("/start_recording", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        candidate_user_id: candidateUserId,
+                        test_duration_minutes: testDurationMinutes
+                    })
+                });
+
+                if (response.headers.get("content-type")?.includes("application/json")) {
+                    const data = await response.json();
+                    if (response.ok) {
+                        console.log("✅ Server-side recording initiated:", data.message);
+                    } else {
+                        console.error("❌ Server-side recording error:", data.message);
+                        showCustomModal("Recording Error", `Server-side recording failed to start: ${data.message}`, true);
+                    }
+                } else {
+                    const text = await response.text();
+                    throw new Error("Invalid response from /start_recording: " + text.slice(0, 100));
+                }
+            } catch (error) {
+                console.error("❌ Failed to initiate server-side recording:", error.message);
+                showCustomModal("Network Error", `Failed to initiate server-side recording: ${error.message}. Please check your connection.`, true);
+            }
+
+            // Handle the initial warning modal and client-side recording start
+            const acceptStartBtn = document.getElementById("accept-start-warning");
+            const startWarningModal = document.getElementById("start-warning-modal");
+
+            if (acceptStartBtn && startWarningModal) {
+                acceptStartBtn.disabled = true; // Initially disable the button
+
+                // Request permissions as soon as the page loads, but before the user interacts with the modal
+                requestMediaPermissions().then((granted) => {
+                    if (granted) {
+                        acceptStartBtn.disabled = false; // Enable button if permissions are granted
+                        console.log("Permissions granted, 'Accept & Start Test' button enabled.");
+                    } else {
+                        console.log("Permissions not granted, 'Accept & Start Test' button remains disabled.");
+                    }
+                });
+
+                // Event listener for the "Accept & Start Test" button
+                acceptStartBtn.addEventListener("click", () => {
+                    if (acceptStartBtn.disabled) {
+                        showCustomModal("Permissions Not Granted", "Please allow camera, microphone, and screen sharing permissions to proceed.", true);
+                        return;
+                    }
+                    startMediaRecorders(); // Start client-side MediaRecorders
+                    startWarningModal.classList.add("hidden"); // Hide the modal
+                    document.body.style.overflow = "auto"; // Restore scrolling
+                });
+            } else {
+                console.warn("Warning modal elements not found. Proceeding without explicit user acceptance for recording.");
+                // If modal elements are missing, attempt to start recording immediately (less ideal for UX)
+                requestMediaPermissions().then((granted) => {
+                    if (granted) {
+                        startMediaRecorders();
+                    }
+                });
+            }
+        });
+    </script>
+    <script>
+        // Disable copy, paste, cut, right-click, text selection
+        document.addEventListener('DOMContentLoaded', () => {
+            // Disable copy, cut, paste
+            document.body.oncopy = document.body.oncut = document.body.onpaste = (e) => {
+                e.preventDefault();
+            };
+
+            // Disable right-click
+            document.body.oncontextmenu = () => false;
+            document.body.onselectstart = () => false;
+            document.body.style.userSelect = 'none';
+            document.body.style.webkitUserSelect = 'none'; // For Safari
+
+            // Create screenshot blur overlay (once)
+            const blurOverlay = document.createElement('div');
+            blurOverlay.id = 'screenshot-blur';
+            blurOverlay.style.position = 'fixed';
+            blurOverlay.style.top = '0';
+            blurOverlay.style.left = '0';
+            blurOverlay.style.width = '100vw';
+            blurOverlay.style.height = '100vh';
+            blurOverlay.style.zIndex = '9999';
+            blurOverlay.style.backdropFilter = 'blur(20px)';
+            blurOverlay.style.pointerEvents = 'none'; // Allow clicks to pass through
+            blurOverlay.style.display = 'none';
+            document.body.appendChild(blurOverlay);
+        });
+
+        // Blur screen if tab is hidden (e.g., during screenshot attempts or switching tabs)
+        document.addEventListener('visibilitychange', () => {
+            let existing = document.getElementById('screenshot-blur');
+            if (!existing) {
+                const blurOverlay = document.createElement('div');
+                blurOverlay.id = 'screenshot-blur';
+                blurOverlay.style.position = 'fixed';
+                blurOverlay.style.top = '0';
+                blurOverlay.style.left = '0';
+                blurOverlay.style.width = '100vw';
+                blurOverlay.style.height = '100vh';
+                blurOverlay.style.zIndex = '9999';
+                blurOverlay.style.backdropFilter = 'blur(20px)'; // The blur effect
+                blurOverlay.style.pointerEvents = 'none'; // Allow clicks to pass through
+                blurOverlay.style.display = 'none'; // Hidden by default
+                document.body.appendChild(blurOverlay);
+            }
+            const blur = document.getElementById('screenshot-blur');
+            if (document.visibilityState === 'hidden') {
+                blur.style.display = 'block'; // Show blur overlay when tab is hidden
+            } else {
+                blur.style.display = 'none'; // Hide blur overlay when tab is visible
+            }
+        });
+    </script>
+
+    <!-- ACE Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.min.js"></script>
+    <style>
+        /* Base font for the entire body */
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #1a202c; /* Dark background for the page */
+            display: flex; /* Make body a flex container */
+            flex-direction: column; /* Stack children vertically */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            margin: 0;
+            padding: 0; /* Remove default padding */
+            box-sizing: border-box;
+        }
+
+        .test-case-passed {
+            color: #10B981;
+            font-weight: bold;
+        }
+
+        .test-case-failed {
+            color: #EF4444;
+            font-weight: bold;
+        }
+
+        .error-message {
+            color: #EF4444;
+            font-style: italic;
+        }
+
+        .test-content-wrapper {
+            max-width: 1200px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #2d3748; /* Darker gray for the main container */
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            color: #e2e8f0; /* Light text color */
+        }
+
+        /* ACE Editor specific styling */
+        #editor {
+            height: 400px; /* Fixed height for the editor */
+            width: 100%;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            font-size: 1rem; /* Adjust font size for readability */
+            line-height: 1.5;
+        }
+
+        /* Styling for output/results area */
+        #output-area {
+            background-color: #1a202c; /* Even darker for output console */
+            color: #a0aec0; /* Lighter gray for output text */
+            min-height: 150px;
+            max-height: 300px; /* Limit height and allow scrolling */
+            overflow-y: auto;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            white-space: pre-wrap; /* Preserve whitespace and wrap long lines */
+            word-wrap: break-word; /* Break words if they are too long */
+        }
+
+        /* Button styling */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background-color: #4299e1; /* Blue-500 */
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary:hover {
+            background-color: #3182ce; /* Blue-600 */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .btn-secondary {
+            background-color: #4a5568; /* Gray-700 */
+            color: white;
+            box-shadow: 0 44px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-secondary:hover {
+            background-color: #2d3748; /* Gray-800 */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .btn-danger {
+            background-color: #ef4444; /* Red-500 */
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-danger:hover {
+            background-color: #dc2626; /* Red-600 */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .btn-success { /* Added for Save button */
+            background-color: #10B981; /* Green-500 */
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-success:hover {
+            background-color: #059669; /* Green-600 */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: translateY(0); /* Remove hover effect when disabled */
+            box-shadow: none; /* Remove shadow when disabled */
+        }
+
+
+        /* Language buttons */
+        .lang-btn {
+            /* Ensure visibility against dark background */
+            background-color: #4a5568; /* Gray-700 */
+            color: #e2e8f0; /* Light text color */
+            border: 1px solid #6b7280; /* Gray-500 border for definition */
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition-colors: all 0.2s;
+            cursor: pointer;
+        }
+        .lang-btn.active {
+            background-color: #2563eb;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-color: #3b82f6;
+        }
+        .lang-btn:not(.active):hover {
+            background-color: #4a5568;
+            color: white;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #4299e1;
+            border-radius: 50%;
+            width: 20px; /* Reduced size for inline use */
+            height: 20px; /* Reduced size for inline use */
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body class="unselectable">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg p-4 z-20">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="/static/lyptus-logo.jpg" alt="Lyptus Logo" class="h-10">
+                <h1 class="text-2xl font-bold text-white tracking-wide">Lyptus Assessments</h1>
+            </div>
+            <!-- Test page might not need logout button, but keeping it consistent -->
+            <!-- <a href="/logout" class="px-4 py-2 bg-red-600 text-white font-semibold rounded-xl shadow-md hover:bg-red-700 transition duration-200 ease-in-out">
+                Logout
+            </a> -->
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow overflow-hidden pt-20 pb-16 flex items-center justify-center p-4">
+      <div class="test-content-wrapper flex flex-col h-full">
+
+        <!-- ✅ Recording Notice (from 1st block) -->
+        <div style="background-color:#ffda00;color:#333;padding:0.5rem;text-align:center;font-size:0.9em;margin-bottom:1rem;">
+          <strong>Important:</strong> Your test session (webcam, audio, and screen) is being recording for integrity purposes.
+        </div>
+
+        <!-- ✅ Header (present in both blocks) -->
+        <div class="flex justify-between items-center mb-6 flex-shrink-0">
+          <h2 class="text-3xl font-bold text-white">
+            <span class="text-blue-300">Question:</span> <span id="question-title">Loading Question...</span>
+          </h2>
+          <div class="flex items-center space-x-4">
+            <button id="prev-question-btn" class="btn btn-secondary" disabled>Previous</button>
+            <div class="text-xl font-semibold text-gray-400">
+              Question <span id="current-question-number">1</span> / <span id="total-questions">1</span>
+            </div>
+            <button id="nav-next-question-btn" class="btn btn-secondary">Next</button>
+          </div>
+          <div class="text-xl font-semibold text-blue-300 ml-4 p-2 bg-gray-700 rounded-lg">
+            Time Left: <span id="time-left">--:--</span>
+          </div>
+        </div>
+
+        <!-- ✅ Grid Layout (combines all content) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 flex-grow min-h-0">
+
+          <!-- ✅ Left Column -->
+          <div class="lg:col-span-4 flex flex-col space-y-6 p-2 rounded-lg bg-gray-800 flex-grow min-h-0">
+            <div class="bg-gray-700 p-6 rounded-lg shadow-md flex-shrink-0 flex flex-col">
+              <h3 class="text-2xl font-bold text-white mb-3 flex-shrink-0">Description:</h3>
+              <p class="text-gray-300 whitespace-pre-wrap overflow-y-auto" style="max-height: 200px;" id="question-description">
+                Please wait while the question loads.
+              </p>
+            </div>
+            <div id="sample-test-cases-display" class="bg-gray-700 p-6 rounded-lg shadow-md flex-grow flex flex-col min-h-0">
+              <h3 class="text-2xl font-bold text-white mb-3 flex-shrink-0">Sample Test Cases:</h3>
+              <div id="sample-test-cases-list" class="space-y-4 text-gray-300 flex-grow overflow-y-auto min-h-0">
+                <p>Loading sample test cases...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ✅ Right Column -->
+          <div class="lg:col-span-8 flex flex-col space-y-6 p-2 rounded-lg bg-gray-800 flex-grow min-h-0">
+
+            <!-- ✅ Language Selection -->
+            <div class="mb-4 flex items-center justify-center space-x-3 flex-shrink-0">
+              <span class="text-gray-300 text-lg mr-2">Language:</span>
+              <button id="lang-python" class="lang-btn active" data-lang="python">Python</button>
+              <button id="lang-c" class="lang-btn" data-lang="c">C</button>
+              <button id="lang-cpp" class="lang-btn" data-lang="cpp">C++</button>
+            </div>
+
+            <!-- ✅ Code Editor -->
+            <div id="editor" class="flex-shrink-0" style="height: 400px;"></div>
+
+            <!-- ✅ Action Buttons -->
+            <div class="flex justify-center space-x-4 mt-6 flex-shrink-0">
+              <button id="run-code-btn" class="btn btn-primary flex items-center justify-center">
+                <span id="run-code-text">Run Code</span>
+                <div id="run-code-spinner" class="loading-spinner w-5 h-5 ml-2 hidden"></div>
+              </button>
+              <button id="save-code-btn" class="btn btn-success flex items-center justify-center">
+                <span id="save-code-text">Save Code</span>
+                <div id="save-code-spinner" class="loading-spinner w-5 h-5 ml-2 hidden"></div>
+              </button>
+              <!-- ✅ Submit & Next Buttons (both variants included) -->
+              <button id="final-submit-btn" class="btn btn-danger flex items-center justify-center">
+                <span id="final-submit-text">Final Submit Test</span>
+                <div id="final-submit-spinner" class="loading-spinner w-5 h-5 ml-2 hidden"></div>
+              </button>
+              <button id="next-question-btn" class="btn btn-secondary hidden flex items-center justify-center">
+                <span id="next-question-text">Next Question</span>
+                <div id="next-question-spinner" class="loading-5 h-5 ml-2 hidden"></div>
+              </button>
+            </div>
+
+            <!-- ✅ Output Area / Test Results (combined all) -->
+            <div class="mt-8 space-y-4 flex-grow flex flex-col min-h-0">
+              <h3 class="text-2xl font-bold text-white mb-3 flex-shrink-0">Output / Test Results</h3>
+              <div id="overall-status" class="text-xl font-semibold flex-shrink-0"></div>
+              <div id="results-container" class="space-y-4 flex-grow overflow-y-auto min-h-0">
+                <!-- Results will be inserted here by JS -->
+              </div>
+              <div id="output-area" class="mt-4 flex-shrink-0" style="min-height: 100px; max-height: 200px; overflow-y: auto;">
+                <p>Your code output will appear here.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-gray-900 text-gray-300 p-4 text-center z-20 shadow-lg">
+        <div class="container mx-auto">
+            <p class="text-sm">
+                &copy; 2025 Lyptus Inc. All rights reserved.
+                <span class="block mt-1 md:inline md:mt-0 md:ml-2">Your premier platform for technical skill assessments.</span>
+            </p>
+        </div>
+    </footer>
+    <div id="start-warning-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+      <div class="bg-white p-6 rounded-lg shadow-xl max-w-lg w-full text-gray-800 text-center">
+        <h3 class="text-xl font-bold mb-4">Before You Start</h3>
+        <p class="mb-4 text-red-600 font-semibold">Do not refresh or close the tab during the test. Once started, you must finish within the given time. Refreshing may cause your session to expire and result in test loss.</p>
+        <button id="accept-start-warning" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow">
+          I Understand, Start Test
+        </button>
+      </div>
+    </div>
+    <!-- Modal for messages -->
+    <div id="modal-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 p-8 rounded-lg shadow-xl max-w-sm w-full text-white text-center">
+            <h3 id="modal-title" class="text-xl font-bold mb-4"></h3>
+            <p id="modal-message" class="mb-6"></p>
+            <button id="modal-ok-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">OK</button>
+        </div>
+    </div>
+
+    <script>
+        let editor; // ACE Editor instance
+        let candidateUserId = '';
+        let currentQuestionIndex = 0;
+        let currentQuestion = null;
+        let questions = [];
+        let selectedLanguage = 'python'; // Default language
+        let lastSavedCode = ''; // To track the last saved code
+
+        // Retrieve from localStorage if available
+        candidateUserId = localStorage.getItem('candidateUserId') || '';
+        let candidateTestToken = localStorage.getItem('candidateTestToken') || '';
+
+        let testStartTime; // To store the start time of the test
+        let testEndTime;   // Stores the exact timestamp when the test should end
+        let timerInterval; // To store the interval ID for the countdown timer
+
+        // DOM elements
+        const questionTitleEl = document.getElementById('question-title');
+        const questionDescriptionEl = document.getElementById('question-description');
+        const currentQuestionNumberEl = document.getElementById('current-question-number');
+        const totalQuestionsEl = document.getElementById('total-questions');
+        const outputAreaEl = document.getElementById('output-area');
+        const runCodeBtn = document.getElementById('run-code-btn');
+        const saveCodeBtn = document.getElementById('save-code-btn');
+        const finalSubmitBtn = document.getElementById('final-submit-btn');
+        const runCodeSpinner = document.getElementById('run-code-spinner');
+        const saveCodeSpinner = document.getElementById('save-code-spinner');
+        const nextQuestionSpinner = document.getElementById('next-question-spinner'); // Re-using this spinner for next navigation
+        const finalSubmitSpinner = document.getElementById('final-submit-spinner');
+        const timeLeftEl = document.getElementById('time-left'); // Timer display element
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const modalOkBtn = document.getElementById('modal-ok-btn');
+        const resultsContainer = document.getElementById("results-container"); // Added for test case results
+        const overallStatus = document.getElementById("overall-status"); // Added for overall status
+        const sampleTestCasesListEl = document.getElementById('sample-test-cases-list'); // Added for displaying sample test cases
+
+        // New Navigation Buttons
+        const prevQuestionNavBtn = document.getElementById('prev-question-btn'); // New Previous navigation button
+        const nextQuestionNavBtn = document.getElementById('nav-next-question-btn'); // New Next navigation button
+
+        // Specific compiler comments
+        const COMPILER_COMMENTS = {
+            'python': '# We are using Python to compile the Python programming.',
+            'c': '// We are using GCC to compile the C programming.',
+            'cpp': '// We are using G++ to compile the C++ programming.'
+        };
+
+        // Initialize ACE Editor and set up event listeners
+        window.onload = function() {
+            editor = ace.edit("editor");
+            editor.setTheme("ace/theme/dracula"); // A popular dark theme
+            editor.session.setMode("ace/mode/python"); // Default mode
+            editor.setOptions({
+                enableLiveAutocompletion: true,
+                enableSnippets: true,
+                highlightActiveLine: true,
+                showPrintMargin: false,
+                fontSize: "16px"
+            });
+
+            // Set up language selection listeners
+            document.querySelectorAll('.lang-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const lang = button.dataset.lang;
+                    setSelectedLanguage(lang);
+                });
+            });
+
+            // Set up button listeners
+            runCodeBtn.addEventListener('click', runCode);
+            saveCodeBtn.addEventListener('click', saveCode);
+            nextQuestionNavBtn.addEventListener('click', nextQuestion);
+            prevQuestionNavBtn.addEventListener('click', previousQuestion); // Keep this for the restricted message
+            finalSubmitBtn.addEventListener('click', finalSubmit);
+            modalOkBtn.addEventListener('click', hideModal);
+
+            // Extract candidate_user_id and candidate_token from the URL path
+            const pathSegments = window.location.pathname.split('/').filter(segment => segment);
+
+            if (pathSegments.length === 3 && pathSegments[0] === 'test_page' && isValidUUID(pathSegments[1]) && isValidUUID(pathSegments[2])) {
+                candidateUserId = pathSegments[1];
+                candidateTestToken = pathSegments[2];
+            } else {
+                showModal("Authentication Error", "Invalid test URL. Please register for the test first.", true, () => {
+                    window.location.href = '/link_expired';
+                });
+                return;
+            }
+
+            fetchAndDisplayQuestion();
+        };
+
+        function isValidUUID(uuid) {
+            const regex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+            return regex.test(uuid);
+        }
+
+        function showModal(title, message, preventClose = false, onConfirm = null) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modalOverlay.classList.remove('hidden');
+
+            modalOkBtn.onclick = () => {
+                hideModal();
+                if (onConfirm) {
+                    onConfirm();
+                }
+            };
+
+            if (preventClose) {
+                modalOverlay.removeEventListener('click', hideModal); // Remove existing listener
+                // Add an empty listener to prevent external clicks from closing it
+                modalOverlay.addEventListener('click', (e) => {
+                    if (e.target === modalOverlay) {
+                        e.stopPropagation(); // Prevent propagation if click is on overlay itself
+                    }
+                });
+            } else {
+                modalOverlay.removeEventListener('click', (e) => { e.stopPropagation(); }); // Remove potentially existing empty listener
+                modalOverlay.addEventListener('click', hideModal); // Re-add default behavior
+            }
+        }
+
+
+        function hideModal() {
+            modalOverlay.classList.add('hidden');
+        }
+
+        function startTimer(startTimeISO, timeLimitMinutes) {
+            const startTime = new Date(startTimeISO).getTime();
+            testEndTime = startTime + (timeLimitMinutes * 60 * 1000);
+
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+
+            timerInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const timeLeftMillis = testEndTime - now;
+
+                if (timeLeftMillis <= 0) {
+                    clearInterval(timerInterval);
+                    timeLeftEl.textContent = "00:00";
+                    showModal("Time's Up!", "Your test time has expired. Your test will be submitted automatically.", true, () => {
+                        finalSubmit();
+                    });
+                    return;
+                }
+
+                const minutes = Math.floor((timeLeftMillis % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeftMillis % (1000 * 60)) / 1000);
+
+                timeLeftEl.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                if (timeLeftMillis < 60 * 1000) {
+                    timeLeftEl.classList.add('text-red-500');
+                    timeLeftEl.classList.remove('text-blue-300', 'text-orange-400');
+                } else if (timeLeftMillis < 5 * 60 * 1000) {
+                    timeLeftEl.classList.add('text-orange-400');
+                    timeLeftEl.classList.remove('text-blue-300', 'text-red-500');
+                } else {
+                    timeLeftEl.classList.add('text-blue-300');
+                    timeLeftEl.classList.remove('text-orange-400', 'text-red-500');
+                }
+            }, 1000);
+        }
+
+        function setSelectedLanguage(lang) {
+            selectedLanguage = lang;
+            document.querySelectorAll('.lang-btn').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.getElementById(`lang-${lang}`).classList.add('active');
+
+            let mode = "";
+            if (lang === 'python') {
+                mode = "ace/mode/python";
+            } else if (lang === 'c' || lang === 'cpp') {
+                mode = "ace/mode/c_cpp";
+            }
+            editor.session.setMode(mode);
+
+            // Load starter code for the selected language
+            let codeToSet = '';
+            if (currentQuestion && currentQuestion.languages && currentQuestion.languages[lang] && currentQuestion.languages[lang].starter_code) {
+                codeToSet = currentQuestion.languages[lang].starter_code;
+            } else {
+                // Use specific compiler comment if no starter code is provided in JSON
+                codeToSet = COMPILER_COMMENTS[lang] || `// No specific starter code for ${lang}. Please write your solution here.`;
+            }
+            editor.setValue(codeToSet, -1);
+            lastSavedCode = codeToSet; // Update last saved code when language changes
+        }
+
+        async function fetchAndDisplayQuestion() {
+            outputAreaEl.textContent = "Loading question...";
+            runCodeBtn.disabled = true;
+            saveCodeBtn.disabled = true;
+            prevQuestionNavBtn.disabled = true;
+            nextQuestionNavBtn.disabled = true;
+            finalSubmitBtn.disabled = true;
+            showSpinner(runCodeSpinner, true);
+            showSpinner(nextQuestionSpinner, true);
+            showSpinner(finalSubmitSpinner, true);
+
+            try {
+                const response = await fetch(`/api/candidates/test/current_question/${candidateUserId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${candidateTestToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                console.log("Received data from current_question API:", data); // Log the received data
+
+                if (response.ok) {
+                    if (data.start_time && data.time_limit_minutes) {
+                         startTimer(data.start_time, data.time_limit_minutes);
+                    }
+
+                    if (data.current_question) {
+                        currentQuestion = data.current_question;
+                        questionTitleEl.textContent = currentQuestion.title;
+                        questionDescriptionEl.textContent = currentQuestion.description;
+                        currentQuestionNumberEl.textContent = data.current_question_number;
+                        totalQuestionsEl.textContent = data.total_questions;
+
+                        // Display sample test cases
+                        displaySampleTestCases(currentQuestion.sample_test_cases);
+
+                        // Set initial language and load starter code
+                        let initialLang = 'python'; // Default fallback
+                        if (data.saved_language) { // Prioritize saved language
+                            initialLang = data.saved_language;
+                        } else if (currentQuestion.languages) {
+                            if (currentQuestion.languages['python']) {
+                                initialLang = 'python';
+                            } else if (currentQuestion.languages['c']) {
+                                initialLang = 'c';
+                            } else if (currentQuestion.languages['cpp']) {
+                                initialLang = 'cpp';
+                            }
+                        }
+
+                        let codeToSet = '';
+                        if (data.saved_code && !isPlaceholderCode(data.saved_code, initialLang)) { // Use saved code if not placeholder
+                            codeToSet = data.saved_code;
+                        } else if (currentQuestion.languages && currentQuestion.languages[initialLang] && currentQuestion.languages[initialLang].starter_code) {
+                            codeToSet = currentQuestion.languages[initialLang].starter_code;
+                        } else {
+                            // Use specific compiler comment if no starter code is provided in JSON
+                            codeToSet = COMPILER_COMMENTS[initialLang] || `// No specific starter code for ${initialLang}. Please write your solution here.`;
+                        }
+                        editor.setValue(codeToSet, -1);
+                        setSelectedLanguage(initialLang); // Update active button and editor mode
+                        lastSavedCode = codeToSet; // Initialize lastSavedCode with the fetched code
+
+                        outputAreaEl.innerHTML = "";
+                        resultsContainer.innerHTML = ""; // Clear previous results
+                        overallStatus.textContent = ""; // Clear previous overall status
+
+                        runCodeBtn.disabled = false;
+                        saveCodeBtn.disabled = false;
+
+                        prevQuestionNavBtn.disabled = (data.current_question_number === 1);
+
+                        if (data.current_question_number === data.total_questions) {
+                            nextQuestionNavBtn.classList.add('hidden');
+                            finalSubmitBtn.classList.remove('hidden');
+                            finalSubmitBtn.disabled = false;
+                        } else {
+                            nextQuestionNavBtn.classList.remove('hidden');
+                            nextQuestionNavBtn.disabled = false;
+                            finalSubmitBtn.classList.add('hidden');
+                        }
+
+                    } else if (data.all_questions_presented) { // This means all questions have been iterated through
+                        questionTitleEl.textContent = "Test Completed!";
+                        questionDescriptionEl.textContent = data.message || "You have answered all questions. Please submit your test.";
+                        currentQuestionNumberEl.textContent = totalQuestionsEl.textContent;
+                        runCodeBtn.disabled = true;
+                        saveCodeBtn.disabled = true;
+                        prevQuestionNavBtn.disabled = true;
+                        nextQuestionNavBtn.classList.add('hidden');
+                        finalSubmitBtn.classList.remove('hidden');
+                        finalSubmitBtn.disabled = false;
+                        outputAreaEl.innerHTML = "";
+                        resultsContainer.innerHTML = ""; // Clear previous results
+                        overallStatus.textContent = ""; // Clear previous overall status
+                        clearInterval(timerInterval);
+                    } else if (data.completed) { // Test completed case, redirect to submission success
+                        window.location.href = `/submission_success/${candidateUserId}`;
+                    }
+                } else {
+                    showModal("Error", data.message || "Failed to load question. Please try again or contact support.", true, () => {
+                        window.location.href = '/link_expired';
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching current question:', error);
+                showModal("Network Error", `An error occurred: ${error.message}. Please check your connection.`, true, () => {
+                    window.location.href = '/link_expired';
+                });
+            } finally {
+                showSpinner(runCodeSpinner, false);
+                showSpinner(nextQuestionSpinner, false);
+                showSpinner(finalSubmitSpinner, false);
+            }
+        }
+
+        // Function to display sample test cases
+        function displaySampleTestCases(sampleTestCases) {
+            sampleTestCasesListEl.innerHTML = ""; // Clear previous sample test cases
+            if (sampleTestCases && sampleTestCases.length > 0) {
+                sampleTestCases.forEach((testCase, index) => {
+                    const testCaseDiv = document.createElement('div');
+                    testCaseDiv.className = 'bg-gray-800 p-4 rounded-md border border-gray-600';
+                    testCaseDiv.innerHTML = `
+                        <p class="font-bold text-lg text-blue-300">Test Case ${index + 1}:</p>
+                        <p class="mt-2"><strong>Input:</strong> <pre class="text-gray-200 whitespace-pre-wrap">${escapeHtml(testCase.input)}</pre></p>
+                        <p><strong>Expected Output:</strong> <pre class="text-gray-200 whitespace-pre-wrap">${escapeHtml(testCase.expected_output)}</pre></p>
+                    `;
+                    sampleTestCasesListEl.appendChild(testCaseDiv);
+                });
+            } else {
+                sampleTestCasesListEl.innerHTML = `<p class="text-gray-400">No sample test cases available for this question.</p>`;
+            }
+        }
+
+        // Helper function to check if code is placeholder (should match backend's is_placeholder_code logic)
+        function isPlaceholderCode(code_string, language = "python") {
+            if (!code_string || !code_string.trim()) {
+                return true;
+            }
+
+            let normalized_code = code_string.trim();
+
+            // Remove all comments for the purpose of checking if there's actual executable code
+            if (language === "python") {
+                normalized_code = normalized_code.replace(/#.*$/gm, ''); // Remove single-line comments
+                normalized_code = normalized_code.replace(/("""[^"]*"""|'''[^']*''')/gs, ''); // Remove multi-line string literals
+            } else if (language === "c" || language === "cpp") {
+                normalized_code = normalized_code.replace(/\/\/.*$/gm, ''); // Remove single-line comments //
+                normalized_code = normalized_code.replace(/\/\*[\s\S]*?\*\//g, ''); // Remove multi-line comments /* ... */
+            }
+
+            // Remove all whitespace (spaces, tabs, newlines)
+            const normalized_code_stripped = normalized_code.replace(/\s+/g, '');
+
+            if (!normalized_code_stripped) {
+                return true; // Only comments or whitespace left
+            }
+
+            // Check for specific placeholder phrases
+            if (normalized_code.toLowerCase().includes("no specific starter code") && normalized_code.toLowerCase().includes("please write your solution here")) {
+                return true;
+            }
+            // Check for the specific compiler comments
+            for (const key in COMPILER_COMMENTS) {
+                if (COMPILER_COMMENTS.hasOwnProperty(key)) {
+                    let strippedCompilerComment = COMPILER_COMMENTS[key];
+                    if (key === 'python') {
+                        // Corrected regex to match the single '#' at the beginning of the comment string
+                        strippedCompilerComment = strippedCompilerComment.replace(/^#\s*/, '');
+                    } else {
+                        strippedCompilerComment = strippedCompilerComment.replace(/^\/\/\s*/, '');
+                    }
+                    // Compare the stripped normalized code with the stripped compiler comment
+                    if (normalized_code_stripped.includes(strippedCompilerComment.toLowerCase().replace(/\s+/g, ''))) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
+        async function runCode() {
+            if (!currentQuestion) {
+                showModal("Error", "No question loaded.", false);
+                return;
+            }
+
+            runCodeBtn.disabled = true;
+            saveCodeBtn.disabled = true;
+            prevQuestionNavBtn.disabled = true;
+            nextQuestionNavBtn.disabled = true;
+            finalSubmitBtn.disabled = true;
+
+            showSpinner(runCodeSpinner, true);
+            outputAreaEl.innerHTML = "<p>Running code...</p>";
+            resultsContainer.innerHTML = ""; // Clear previous results
+            overallStatus.textContent = ""; // Clear previous overall status
+
+
+            const code = editor.getValue();
+            const language = selectedLanguage;
+
+            try {
+                const response = await fetch(`/api/candidates/test/submit_code/${candidateUserId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${candidateTestToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        question_id: currentQuestion.id,
+                        code: code,
+                        language: language,
+                        run_type: 'sample'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayResults(data); // Call the new function to display results
+                } else {
+                    outputAreaEl.innerHTML = `<p class="text-red-400">Error: ${data.message || 'Unknown error during code execution.'}</p>`;
+                    outputAreaEl.classList.add('error-message');
+                }
+            } catch (error) {
+                console.error('Error running code:', error);
+                outputAreaEl.innerHTML = `<p class="text-red-400">Network error during code execution: ${escapeHtml(error.message)}.</p>`;
+                outputAreaEl.classList.add('error-message');
+            } finally {
+                runCodeBtn.disabled = false;
+                saveCodeBtn.disabled = false;
+                prevQuestionNavBtn.disabled = (parseInt(currentQuestionNumberEl.textContent) === 1);
+                if (parseInt(currentQuestionNumberEl.textContent) !== parseInt(totalQuestionsEl.textContent)) {
+                    nextQuestionNavBtn.disabled = false;
+                } else {
+                    finalSubmitBtn.disabled = false;
+                }
+                showSpinner(runCodeSpinner, false);
+                outputAreaEl.classList.remove('error-message');
+            }
+        }
+
+        async function saveCode() {
+            if (!currentQuestion) {
+                showModal("Error", "No question loaded to save.", false);
+                return;
+            }
+
+            const currentCode = editor.getValue();
+
+            // Clear previous save messages
+            const existingSaveMessages = outputAreaEl.querySelectorAll('.save-message');
+            existingSaveMessages.forEach(msg => msg.remove());
+
+            // Check if the code has changed since the last successful save
+            if (currentCode === lastSavedCode) {
+                outputAreaEl.insertAdjacentHTML('afterbegin', `<p class="save-message text-green-400">Code already saved successfully!</p>`);
+                return; // Exit early, no need to send request
+            }
+
+            saveCodeBtn.disabled = true;
+            runCodeBtn.disabled = true;
+            prevQuestionNavBtn.disabled = true;
+            nextQuestionNavBtn.disabled = true;
+            finalSubmitBtn.disabled = true;
+            showSpinner(saveCodeSpinner, true);
+            outputAreaEl.insertAdjacentHTML('afterbegin', `<p class="save-message text-blue-400">Saving code...</p>`);
+
+
+            const language = selectedLanguage;
+
+            try {
+                const response = await fetch(`/api/candidates/test/save_code/${candidateUserId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${candidateTestToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        question_id: currentQuestion.id,
+                        code: currentCode,
+                        language: language
+                    })
+                });
+                const data = await response.json();
+
+                // Clear previous save messages again before showing the final one
+                outputAreaEl.querySelectorAll('.save-message').forEach(msg => msg.remove());
+
+                if (response.ok) {
+                    outputAreaEl.insertAdjacentHTML('afterbegin', `<p class="save-message text-green-400">${data.message || 'Code saved successfully!'}</p>`);
+                    lastSavedCode = currentCode; // Update lastSavedCode on successful save
+                } else {
+                    outputAreaEl.insertAdjacentHTML('afterbegin', `<p class="save-message text-red-400">Error saving code: ${data.message || 'Unknown error.'}</p>`);
+                }
+            } catch (error) {
+                console.error('Error saving code:', error);
+                outputAreaEl.querySelectorAll('.save-message').forEach(msg => msg.remove()); // Clear on error too
+                outputAreaEl.insertAdjacentHTML('afterbegin', `<p class="save-message text-red-400">Network error saving code: ${escapeHtml(error.message)}.</p>`);
+            } finally {
+                saveCodeBtn.disabled = false;
+                runCodeBtn.disabled = false;
+                prevQuestionNavBtn.disabled = (parseInt(currentQuestionNumberEl.textContent) === 1);
+                if (parseInt(currentQuestionNumberEl.textContent) !== parseInt(totalQuestionsEl.textContent)) {
+                    nextQuestionNavBtn.disabled = false;
+                } else {
+                    finalSubmitBtn.disabled = false;
+                }
+                showSpinner(saveCodeSpinner, false);
+            }
+        }
+
+        async function nextQuestion() {
+            if (!currentQuestion) return;
+
+            nextQuestionNavBtn.disabled = true;
+            runCodeBtn.disabled = true;
+            saveCodeBtn.disabled = true;
+            prevQuestionNavBtn.disabled = true;
+            finalSubmitBtn.disabled = true;
+
+            showSpinner(nextQuestionSpinner, true);
+            outputAreaEl.innerHTML = "<p>Saving answer and moving to next question...</p>";
+            resultsContainer.innerHTML = ""; // Clear previous results
+            overallStatus.textContent = ""; // Clear previous overall status
+
+
+            const code = editor.getValue();
+            const language = selectedLanguage;
+
+            try {
+                const response = await fetch(`/api/candidates/test/next_question/${candidateUserId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${candidateTestToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        question_id: currentQuestion.id,
+                        code: code,
+                        language: language
+                    })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.current_question) {
+                        currentQuestion = data.current_question;
+                        questionTitleEl.textContent = currentQuestion.title;
+                        questionDescriptionEl.textContent = currentQuestion.description;
+                        currentQuestionNumberEl.textContent = data.current_question_number;
+                        totalQuestionsEl.textContent = data.total_questions;
+
+                        // Display sample test cases for the new question
+                        displaySampleTestCases(currentQuestion.sample_test_cases);
+
+                        setSelectedLanguage(selectedLanguage);
+                        // If there's saved code for the new question, load it, otherwise use starter code
+                        let codeToSet = '';
+                        if (data.saved_code && !isPlaceholderCode(data.saved_code, selectedLanguage)) { // Use saved code if not placeholder
+                            codeToSet = data.saved_code;
+                        } else if (currentQuestion.languages && currentQuestion.languages[selectedLanguage] && currentQuestion.languages[selectedLanguage].starter_code) {
+                            codeToSet = currentQuestion.languages[selectedLanguage].starter_code;
+                        } else {
+                            // Use specific compiler comment if no starter code is provided in JSON
+                            codeToSet = COMPILER_COMMENTS[selectedLanguage] || `// No specific starter code for ${selectedLanguage}. Please write your solution here.`;
+                        }
+                        editor.setValue(codeToSet, -1);
+                        lastSavedCode = codeToSet; // Update lastSavedCode for the new question
+
+                        outputAreaEl.innerHTML = "";
+
+                        runCodeBtn.disabled = false;
+                        saveCodeBtn.disabled = false;
+                        prevQuestionNavBtn.disabled = (data.current_question_number === 1);
+
+                        if (data.current_question_number === data.total_questions) {
+                            nextQuestionNavBtn.classList.add('hidden');
+                            finalSubmitBtn.classList.remove('hidden');
+                            finalSubmitBtn.disabled = false;
+                        } else {
+                            nextQuestionNavBtn.classList.remove('hidden');
+                            nextQuestionNavBtn.disabled = false;
+                            finalSubmitBtn.classList.add('hidden');
+                        }
+
+                    } else if (data.all_questions_presented) {
+                        questionTitleEl.textContent = "Test Completed!";
+                        questionDescriptionEl.textContent = data.message || "You have answered all questions. Please submit your test.";
+                        currentQuestionNumberEl.textContent = totalQuestionsEl.textContent;
+                        runCodeBtn.disabled = true;
+                        saveCodeBtn.disabled = true;
+                        prevQuestionNavBtn.disabled = true;
+                        nextQuestionNavBtn.classList.add('hidden');
+                        finalSubmitBtn.classList.remove('hidden');
+                        finalSubmitBtn.disabled = false;
+                        outputAreaEl.innerHTML = "";
+                        clearInterval(timerInterval);
+                    } else if (data.completed) { // Test completed case, redirect to submission success
+                        window.location.href = `/submission_success/${candidateUserId}`;
+                    }
+                } else {
+                    showModal("Error", data.message || "Failed to proceed to next question.", false);
+                }
+            } catch (error) {
+                console.error('Error navigating to next question:', error);
+                showModal("Network Error", `An error occurred: ${error.message}. Please check your connection.`, false);
+            } finally {
+                showSpinner(nextQuestionSpinner, false);
+            }
+        }
+
+        async function previousQuestion() {
+            showModal("Navigation Restricted", "You cannot go back to previous questions once you move forward.", false);
+        }
+
+        // Renamed from renderTestCases to displayResults and updated to match new backend response
+        function displayResults(responseData) {
+            resultsContainer.innerHTML = ""; // Clear old results
+
+            // Display overall status
+            overallStatus.textContent = responseData.overall_message || "";
+            overallStatus.className = responseData.overall_passed ? "text-green-400" : "text-red-400";
+
+            if (responseData.results && responseData.results.length > 0) {
+                responseData.results.forEach((result, index) => {
+                    const testDiv = document.createElement("div");
+                    // Use Tailwind classes directly for background and border
+                    const bgColorClass = result.passed ? 'bg-green-900 bg-opacity-30' : 'bg-red-900 bg-opacity-30';
+                    const borderColorClass = result.passed ? 'border-green-500' : 'border-red-500';
+
+                    testDiv.className = `mb-4 p-4 rounded-md border-l-4 ${bgColorClass} ${borderColorClass} text-gray-100`;
+
+                    testDiv.innerHTML = `
+                        <p class="font-bold text-lg">Test Case ${index + 1}: <span class="${result.passed ? 'test-case-passed' : 'test-case-failed'}">${result.passed ? '✅ PASSED' : '❌ FAILED'}</span></p>
+                        <p class="mt-2"><strong>Input:</strong> <pre class="text-blue-300 whitespace-pre-wrap">${escapeHtml(result.input)}</pre></p>
+                        <p><strong>Expected Output:</strong> <pre class="text-green-300 whitespace-pre-wrap">${escapeHtml(result.expected_output)}</pre></p>
+                        <p><strong>Actual Output:</strong> <pre class="text-yellow-100 whitespace-pre-wrap">${escapeHtml(result.actual_output)}</pre></p>
+                        ${result.error ? `<div><strong>Error:</strong><br><pre class="bg-red-800 text-red-200 p-2 rounded whitespace-pre-wrap">${escapeHtml(result.error)}</pre></div>` : ""}
+                    `;
+                    resultsContainer.appendChild(testDiv);
+                });
+            } else {
+                resultsContainer.innerHTML = `<p class="text-white">No detailed test case results available.</p>`;
+            }
+            // outputAreaEl.innerHTML = ""; // Do not clear the general output area, only prepend messages
+        }
+
+
+        async function finalSubmit() {
+            finalSubmitBtn.disabled = true;
+            runCodeBtn.disabled = true;
+            saveCodeBtn.disabled = true;
+            prevQuestionNavBtn.disabled = true;
+            nextQuestionNavBtn.disabled = true;
+            showSpinner(finalSubmitSpinner, true);
+            outputAreaEl.innerHTML = "<p>Submitting final test...</p>";
+            resultsContainer.innerHTML = ""; // Clear previous results
+            overallStatus.textContent = ""; // Clear previous overall status
+            clearInterval(timerInterval);
+
+            showModal("Final Confirmation",
+                      "⚠️ Are you sure you want to submit your test? Once you click OK, DO NOT refresh or press back. If you do, your submission may be lost and the test will expire immediately. Please be patient while the test submits.",
+                      true, // Prevent closing by clicking outside
+                      async () => { // Use async callback
+                // IMPORTANT: Call stopAndUpload here to ensure client-side recordings are processed
+                console.log("Attempting to stop and upload recordings during final submission...");
+                stopAndUpload(candidateUserId); // <--- Changed to direct call, not await, for beforeunload context
+
+                try {
+                    // Save the current question's code one last time before final submission
+                    if (currentQuestion) {
+                        await fetch(`/api/candidates/test/save_code/${candidateUserId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${candidateTestToken}`
+                            },
+                            body: JSON.stringify({
+                                question_id: currentQuestion.id,
+                                code: editor.getValue(),
+                                language: selectedLanguage
+                            })
+                        });
+                    }
+
+                    const response = await fetch(`/api/candidates/test/final_submit/${candidateUserId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${candidateTestToken}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    // IMPORTANT: Always try to parse JSON, even on non-ok responses
+                    let data;
+                    try {
+                        data = await response.json();
+                    } catch (jsonError) {
+                        console.error('JSON parsing error:', jsonError);
+                        const rawText = await response.text();
+                        console.error('Raw response text:', rawText);
+                        showModal("Submission Error", `Received an invalid response from the server. Please contact support. Raw: ${rawText.substring(0, 100)}...`, true, () => {
+                            finalSubmitBtn.disabled = false; // Re-enable for retry
+                            runCodeBtn.disabled = false;
+                            saveCodeBtn.disabled = false;
+                            // Re-enable nav buttons if needed
+                            prevQuestionNavBtn.disabled = (parseInt(currentQuestionNumberEl.textContent) === 1);
+                            if (parseInt(currentQuestionNumberEl.textContent) !== parseInt(totalQuestionsEl.textContent)) {
+                                nextQuestionNavBtn.disabled = false;
+                            }
+                            outputAreaEl.innerHTML = `<p class="text-red-400">Submission failed: Invalid server response.</p>`;
+                            outputAreaEl.classList.add('error-message');
+                        });
+                        return; // Exit function if JSON is invalid
+                    }
+
+
+                    if (response.ok) {
+                        // On successful final submission, redirect to the link expired page as per new requirement.
+                        // Or to a submission_success page if you prefer detailed results there.
+                        // For now, redirecting to link_expired as per current request.
+                        window.location.href = data.redirect_url;
+                    } else {
+                        showModal("Submission Failed", `Error submitting test: ${data.message || 'Unknown error.'}`, false, () => {
+                            finalSubmitBtn.disabled = false;
+                            runCodeBtn.disabled = false;
+                            saveCodeBtn.disabled = false;
+                            prevQuestionNavBtn.disabled = (parseInt(currentQuestionNumberEl.textContent) === 1);
+                            if (parseInt(currentQuestionNumberEl.textContent) !== parseInt(totalQuestionsEl.textContent)) {
+                                nextQuestionNavBtn.disabled = false;
+                            }
+                            outputAreaEl.innerHTML = `<p class="text-red-400">Submission failed: ${escapeHtml(data.message || 'Unknown error.')}</p>`;
+                            outputAreaEl.classList.add('error-message');
+                        });
+                    }
+                } catch (error) {
+                    console.error('Final submit network error:', error);
+                    let displayMessage = `An error occurred during final submission: ${error.message}. Please check your connection.`;
+                    // If response object is not available (true network error before server response)
+                    showModal("Network Error", displayMessage, true, () => {
+                        finalSubmitBtn.disabled = false;
+                        runCodeBtn.disabled = false;
+                        saveCodeBtn.disabled = false;
+                        prevQuestionNavBtn.disabled = (parseInt(currentQuestionNumberEl.textContent) === 1);
+                        if (parseInt(currentQuestionNumberEl.textContent) !== parseInt(totalQuestionsEl.textContent)) {
+                            nextQuestionNavBtn.disabled = false;
+                        }
+                        outputAreaEl.innerHTML = `<p class="text-red-400">Network error during final submission: ${escapeHtml(error.message)}.</p>`;
+                        outputAreaEl.classList.add('error-message');
+                    });
+                } finally {
+                    showSpinner(finalSubmitSpinner, false);
+                }
+            });
+        }
+
+        function showSpinner(spinnerElement, show) {
+            if (show) {
+                spinnerElement.classList.remove('hidden');
+            } else {
+                spinnerElement.classList.add('hidden');
+            }
+        }
+
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+        const testDurationMs = 60 * 60 * 1000; // 60 minutes
+        // The candidateUserId is now correctly extracted from the URL path in window.onload
+        // So, this line can safely use the global candidateUserId variable.
+        // const userId = "{{ candidate_user_id }}"; // This line is from Flask templating, which is fine if used for initial value.
+
+        // Moved this setTimeout inside DOMContentLoaded or after candidateUserId is guaranteed to be set
+        // to ensure candidateUserId is available.
+        // For now, keeping it here as it was, assuming Flask renders it with a value.
+        // If it's empty, the test_timeout_redirect will handle it.
+        setTimeout(() => {
+            if (candidateUserId) { // Ensure candidateUserId is available
+                window.location.href = `/test_timeout_redirect/${candidateUserId}`;
+            } else {
+                console.warn("candidateUserId not available for timeout redirect. Skipping.");
+            }
+        }, testDurationMs);
+    </script>
+
+    <script>
+      // 📌 Show start warning on load
+      window.addEventListener("load", () => {
+        const startWarning = document.getElementById("start-warning-modal");
+        const acceptStartBtn = document.getElementById("accept-start-warning");
+        if (startWarning && acceptStartBtn) {
+          startWarning.classList.remove("hidden");
+          document.body.style.overflow = "hidden"; // prevent scroll until accepted
+          acceptStartBtn.addEventListener("click", () => {
+            startWarning.classList.add("hidden");
+            document.body.style.overflow = "auto";
+          });
+        }
+      });
+
+      // ⚠️ Final Submit warning
+      const confirmModal = document.getElementById("modal-overlay"); // Re-using the general modal
+      const confirmSubmitBtn = document.getElementById("modal-ok-btn"); // Re-using the general modal OK button
+      // No specific cancel button needed if re-using general modal, as it closes on OK
+
+      finalSubmitBtn.addEventListener("click", function () {
+        // Trigger the showModal with final confirmation message
+        showModal("Final Confirmation",
+                  "⚠️ Are you sure you want to submit your test? Once you click OK, DO NOT refresh or press back. If you do, your submission may be lost and the test will expire immediately. Please be patient while the test submits.",
+                  true, // Prevent closing by clicking outside
+                  proceedWithFinalSubmission); // Callback function
+      });
+
+      async function proceedWithFinalSubmission() {
+        finalSubmitBtn.disabled = true;
+        runCodeBtn.disabled = true;
+        saveCodeBtn.disabled = true;
+        prevQuestionNavBtn.disabled = true;
+        nextQuestionNavBtn.disabled = true;
+        showSpinner(finalSubmitSpinner, true);
+        outputAreaEl.innerHTML = "<p>Submitting final test...</p>";
+        resultsContainer.innerHTML = ""; // Clear previous results
+        overallStatus.textContent = ""; // Clear previous overall status
+        clearInterval(timerInterval);
+
+        // Call stopAndUpload here to ensure client-side recordings are processed
+        console.log("Attempting to stop and upload recordings during final submission...");
+        stopAndUpload(candidateUserId); // <--- Changed to direct call, not await, for beforeunload context
+
+        try {
+          if (currentQuestion) {
+            await fetch(`/api/candidates/test/save_code/${candidateUserId}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${candidateTestToken}`
+              },
+              body: JSON.stringify({
+                question_id: currentQuestion.id,
+                code: editor.getValue(),
+                language: selectedLanguage
+              })
+            });
+          }
+
+          const response = await fetch(`/api/candidates/test/final_submit/${candidateUserId}`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${candidateTestToken}`,
+              'Content-Type': 'application/json'
+            }
+          });
+
+          let data;
+          try {
+            data = await response.json();
+          } catch (jsonError) {
+            console.error('JSON parsing error:', jsonError);
+            const rawText = await response.text();
+            outputAreaEl.innerHTML = `<p class='text-red-400'>Submission failed: Raw response: ${rawText}</p>`;
+            return;
+          }
+
+          if (response.ok && data.redirect_url) {
+            window.location.href = data.redirect_url;
+          } else {
+            outputAreaEl.innerHTML = `<p class='text-red-400'>Submission failed: ${escapeHtml(data.message || 'Unknown error')}</p>`;
+          }
+        } catch (error) {
+          console.error('Submit error:', error);
+          outputAreaEl.innerHTML = `<p class='text-red-400'>Network error during submission: ${escapeHtml(error.message)}</p>`;
+        } finally {
+          showSpinner(finalSubmitSpinner, false);
+        }
+      }
+
+      // Consolidated beforeunload listener
+      window.addEventListener('beforeunload', function (e) {
+        // This is a synchronous call to stopAndUpload, which internally tries to use sendBeacon.
+        // sendBeacon is designed to be non-blocking and reliable during unload.
+        console.log("Attempting to stop and upload recordings and mark test failed on beforeunload...");
+
+        // Call stopAndUpload to handle client-side recording upload
+        // Note: stopAndUpload is an async function, but when called in beforeunload,
+        // it will initiate the sendBeacon/fetch with keepalive and not wait for completion,
+        // which is the desired behavior for unload events.
+        stopAndUpload(candidateUserId);
+
+        // Also send a beacon to mark the test as failed on the server
+        // This is a separate, simple beacon for marking the session status.
+        if (candidateUserId) {
+            navigator.sendBeacon(`/api/mark_test_failed/${candidateUserId}`);
+        } else {
+            console.warn("candidateUserId not available for marking test failed on unload.");
+        }
+      });
+    </script>
+</body>
+</html>

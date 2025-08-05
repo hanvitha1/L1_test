@@ -1,0 +1,665 @@
+[
+    {
+        "id": "E001",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "python",
+        "code_snippet": "def sum_two_numbers(a, b):\n    return a + b",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "A002",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "python",
+        "code_snippet": "def sum_two_numbers(a, b):\n    return a + b",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "E003",
+        "title": "Check Even or Odd",
+        "description": "Determine whether a number is even or odd.",
+        "language": "cpp",
+        "code_snippet": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    cout << (n % 2 == 0 ? \"Even\" : \"Odd\");\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "2",
+                "expected_output": "Even"
+            },
+            {
+                "input": "7",
+                "expected_output": "Odd"
+            }
+        ]
+    },
+    {
+        "id": "A004",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "c",
+        "code_snippet": "#include <stdio.h>\nint main() {\n    int a, b;\n    scanf(\"%d %d\", &a, &b);\n    printf(\"%d\", a + b);\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "B005",
+        "title": "Check Even or Odd",
+        "description": "Determine whether a number is even or odd.",
+        "language": "c",
+        "code_snippet": "#include <stdio.h>\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    if(n % 2 == 0) printf(\"Even\"); else printf(\"Odd\");\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "2",
+                "expected_output": "Even"
+            },
+            {
+                "input": "7",
+                "expected_output": "Odd"
+            }
+        ]
+    },
+    {
+        "id": "D006",
+        "title": "Check Even or Odd",
+        "description": "Determine whether a number is even or odd.",
+        "language": "python",
+        "code_snippet": "def check_even_odd(n):\n    return 'Even' if n % 2 == 0 else 'Odd'",
+        "test_cases": [
+            {
+                "input": "2",
+                "expected_output": "Even"
+            },
+            {
+                "input": "7",
+                "expected_output": "Odd"
+            }
+        ]
+    },
+    {
+        "id": "D007",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "python",
+        "code_snippet": "def sum_two_numbers(a, b):\n    return a + b",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "C009",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "python",
+        "code_snippet": "def sum_two_numbers(a, b):\n    return a + b",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "A010",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "c",
+        "code_snippet": "#include <stdio.h>\nint main() {\n    int a, b;\n    scanf(\"%d %d\", &a, &b);\n    printf(\"%d\", a + b);\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "C011",
+        "title": "Check Even or Odd",
+        "description": "Determine whether a number is even or odd.",
+        "language": "python",
+        "code_snippet": "def check_even_odd(n):\n    return 'Even' if n % 2 == 0 else 'Odd'",
+        "test_cases": [
+            {
+                "input": "2",
+                "expected_output": "Even"
+            },
+            {
+                "input": "7",
+                "expected_output": "Odd"
+            }
+        ]
+    },
+    {
+        "id": "C012",
+        "title": "Check Even or Odd",
+        "description": "Determine whether a number is even or odd.",
+        "language": "cpp",
+        "code_snippet": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    cout << (n % 2 == 0 ? \"Even\" : \"Odd\");\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "2",
+                "expected_output": "Even"
+            },
+            {
+                "input": "7",
+                "expected_output": "Odd"
+            }
+        ]
+    },
+    {
+        "id": "B013",
+        "title": "Check Even or Odd",
+        "description": "Determine whether a number is even or odd.",
+        "language": "cpp",
+        "code_snippet": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    cout << (n % 2 == 0 ? \"Even\" : \"Odd\");\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "2",
+                "expected_output": "Even"
+            },
+            {
+                "input": "7",
+                "expected_output": "Odd"
+            }
+        ]
+    },
+    {
+        "id": "B014",
+        "title": "Check Even or Odd",
+        "description": "Determine whether a number is even or odd.",
+        "language": "python",
+        "code_snippet": "def check_even_odd(n):\n    return 'Even' if n % 2 == 0 else 'Odd'",
+        "test_cases": [
+            {
+                "input": "2",
+                "expected_output": "Even"
+            },
+            {
+                "input": "7",
+                "expected_output": "Odd"
+            }
+        ]
+    },
+    {
+        "id": "A015",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "cpp",
+        "code_snippet": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << a + b;\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "C016",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "cpp",
+        "code_snippet": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << a + b;\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "D017",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "python",
+        "code_snippet": "def sum_two_numbers(a, b):\n    return a + b",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "C018",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "cpp",
+        "code_snippet": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << a + b;\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "D019",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "cpp",
+        "code_snippet": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << a + b;\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "A020",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "python",
+        "code_snippet": "def sum_two_numbers(a, b):\n    return a + b",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "C021",
+        "title": "Check Even or Odd",
+        "description": "Determine whether a number is even or odd.",
+        "language": "c",
+        "code_snippet": "#include <stdio.h>\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    if(n % 2 == 0) printf(\"Even\"); else printf(\"Odd\");\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "2",
+                "expected_output": "Even"
+            },
+            {
+                "input": "7",
+                "expected_output": "Odd"
+            }
+        ]
+    },
+    {
+        "id": "D022",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "cpp",
+        "code_snippet": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << a + b;\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "D023",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "cpp",
+        "code_snippet": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << a + b;\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "C024",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "python",
+        "code_snippet": "def sum_two_numbers(a, b):\n    return a + b",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "E025",
+        "title": "Check Even or Odd",
+        "description": "Determine whether a number is even or odd.",
+        "language": "c",
+        "code_snippet": "#include <stdio.h>\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    if(n % 2 == 0) printf(\"Even\"); else printf(\"Odd\");\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "2",
+                "expected_output": "Even"
+            },
+            {
+                "input": "7",
+                "expected_output": "Odd"
+            }
+        ]
+    },
+    {
+        "id": "E026",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "cpp",
+        "code_snippet": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << a + b;\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "D027",
+        "title": "Check Even or Odd",
+        "description": "Determine whether a number is even or odd.",
+        "language": "cpp",
+        "code_snippet": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    cout << (n % 2 == 0 ? \"Even\" : \"Odd\");\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "2",
+                "expected_output": "Even"
+            },
+            {
+                "input": "7",
+                "expected_output": "Odd"
+            }
+        ]
+    },
+    {
+        "id": "C028",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "python",
+        "code_snippet": "def sum_two_numbers(a, b):\n    return a + b",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "B029",
+        "title": "Check Even or Odd",
+        "description": "Determine whether a number is even or odd.",
+        "language": "cpp",
+        "code_snippet": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    cout << (n % 2 == 0 ? \"Even\" : \"Odd\");\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "2",
+                "expected_output": "Even"
+            },
+            {
+                "input": "7",
+                "expected_output": "Odd"
+            }
+        ]
+    },
+    {
+        "id": "B030",
+        "title": "Check Even or Odd",
+        "description": "Determine whether a number is even or odd.",
+        "language": "python",
+        "code_snippet": "def check_even_odd(n):\n    return 'Even' if n % 2 == 0 else 'Odd'",
+        "test_cases": [
+            {
+                "input": "2",
+                "expected_output": "Even"
+            },
+            {
+                "input": "7",
+                "expected_output": "Odd"
+            }
+        ]
+    },
+    {
+        "id": "A031",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "cpp",
+        "code_snippet": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << a + b;\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "D032",
+        "title": "Check Even or Odd",
+        "description": "Determine whether a number is even or odd.",
+        "language": "python",
+        "code_snippet": "def check_even_odd(n):\n    return 'Even' if n % 2 == 0 else 'Odd'",
+        "test_cases": [
+            {
+                "input": "2",
+                "expected_output": "Even"
+            },
+            {
+                "input": "7",
+                "expected_output": "Odd"
+            }
+        ]
+    },
+    {
+        "id": "B033",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "cpp",
+        "code_snippet": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << a + b;\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "C034",
+        "title": "Check Even or Odd",
+        "description": "Determine whether a number is even or odd.",
+        "language": "c",
+        "code_snippet": "#include <stdio.h>\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    if(n % 2 == 0) printf(\"Even\"); else printf(\"Odd\");\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "2",
+                "expected_output": "Even"
+            },
+            {
+                "input": "7",
+                "expected_output": "Odd"
+            }
+        ]
+    },
+    {
+        "id": "D035",
+        "title": "Check Even or Odd",
+        "description": "Determine whether a number is even or odd.",
+        "language": "c",
+        "code_snippet": "#include <stdio.h>\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    if(n % 2 == 0) printf(\"Even\"); else printf(\"Odd\");\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "2",
+                "expected_output": "Even"
+            },
+            {
+                "input": "7",
+                "expected_output": "Odd"
+            }
+        ]
+    },
+    {
+        "id": "E036",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "c",
+        "code_snippet": "#include <stdio.h>\nint main() {\n    int a, b;\n    scanf(\"%d %d\", &a, &b);\n    printf(\"%d\", a + b);\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "A037",
+        "title": "Check Even or Odd",
+        "description": "Determine whether a number is even or odd.",
+        "language": "cpp",
+        "code_snippet": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    cout << (n % 2 == 0 ? \"Even\" : \"Odd\");\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "2",
+                "expected_output": "Even"
+            },
+            {
+                "input": "7",
+                "expected_output": "Odd"
+            }
+        ]
+    },
+    {
+        "id": "B038",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "python",
+        "code_snippet": "def sum_two_numbers(a, b):\n    return a + b",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "B039",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "c",
+        "code_snippet": "#include <stdio.h>\nint main() {\n    int a, b;\n    scanf(\"%d %d\", &a, &b);\n    printf(\"%d\", a + b);\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    },
+    {
+        "id": "A040",
+        "title": "Sum of Two Numbers",
+        "description": "Write a program to read two integers and print their sum.",
+        "language": "cpp",
+        "code_snippet": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << a + b;\n    return 0;\n}",
+        "test_cases": [
+            {
+                "input": "3 4",
+                "expected_output": "7"
+            },
+            {
+                "input": "-5 5",
+                "expected_output": "0"
+            }
+        ]
+    }
+]

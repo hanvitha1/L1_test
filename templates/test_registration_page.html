@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Registration - Start Your Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Disable copy, paste, cut, right-click, text selection
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.oncopy = document.body.oncut = document.body.onpaste = (e) => e.preventDefault();
+            document.body.oncontextmenu = () => false;
+            document.body.onselectstart = () => false;
+            document.body.style.userSelect = 'none';
+            document.body.style.webkitUserSelect = 'none';
+        });
+
+        // Blur screen if tab is hidden (e.g., during screenshot)
+        document.addEventListener('visibilitychange', () => {
+            let existing = document.getElementById('screenshot-blur');
+            if (!existing) {
+                const blurOverlay = document.createElement('div');
+                blurOverlay.id = 'screenshot-blur';
+                blurOverlay.style.position = 'fixed';
+                blurOverlay.style.top = '0';
+                blurOverlay.style.left = '0';
+                blurOverlay.style.width = '100vw';
+                blurOverlay.style.height = '100vh';
+                blurOverlay.style.zIndex = '9999';
+                blurOverlay.style.backdropFilter = 'blur(20px)';
+                blurOverlay.style.pointerEvents = 'none';
+                blurOverlay.style.display = 'none';
+                document.body.appendChild(blurOverlay);
+            }
+            const blur = document.getElementById('screenshot-blur');
+            if (document.visibilityState === 'hidden') {
+                blur.style.display = 'block';
+            } else {
+                blur.style.display = 'none';
+            }
+        });
+    </script>
+    <style>
+        /* Base font for the entire body */
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #e0e7ee; /* A soft, desaturated blue-gray background */
+            display: flex;
+            flex-direction: column; /* Allows content, header, footer to stack vertically */
+            min-height: 100vh;
+            margin: 0;
+            padding: 0; /* Ensures full control over spacing */
+            box-sizing: border-box;
+        }
+        /* Main container styling for the form card */
+        .form-card {
+            background-color: #fcfcfc; /* A very light, almost white background for the card */
+            padding: 2.5rem;
+            border-radius: 1rem; /* Consistent rounded corners */
+            border: 1px solid #e2e8f0; /* Soft gray border */
+            box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.1), 0 5px 12px -5px rgba(0, 0, 0, 0.08); /* More pronounced shadow */
+            width: 100%;
+            max-width: 90%; /* Adjusted max-width to take up more space on smaller screens */
+            text-align: center;
+        }
+
+        /* Responsive adjustment for larger screens */
+        @media (min-width: 768px) { /* md breakpoint */
+            .form-card {
+                max-width: 1000px; /* Max width for desktop */
+            }
+        }
+
+        /* Heading colors */
+        .form-card h1 {
+            color: #374151; /* Darker gray for headings */
+        }
+        .form-card p.text-gray-700 {
+            color: #4b5563; /* Slightly softer gray for body text */
+        }
+        /* Input field styling from user's snippet */
+        .shadow.appearance-none.border.rounded-lg.w-full.py-2.px-3.text-gray-700.leading-tight.focus\:outline-none.focus\:ring-2.focus\:ring-blue-500.focus\:border-transparent {
+            /* These classes are applied directly in the HTML, no need to redefine here */
+        }
+        /* Placeholder text color for better contrast */
+        input::placeholder {
+            color: #9ca3af; /* Tailwind gray-400 for placeholders */
+        }
+        /* Label styling */
+        label {
+            color: #374151; /* Darker gray for labels */
+            font-weight: 500; /* Medium font weight for labels */
+        }
+        /* Button styling for primary action */
+        .btn-primary {
+            /* Default style - applying user's requested classes */
+            @apply w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium transition duration-150 ease-in-out;
+            background-color: #d1d5db; /* Gray-300 for disabled state */
+            color: #4b5563; /* Gray-700 for disabled text */
+            cursor: not-allowed;
+        }
+        /* Active style for the button */
+        .btn-primary.active-style {
+            background-color: #2563eb; /* Blue-600 */
+            color: white; /* White text for active state */
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 5px 12px -5px rgba(0, 0, 0, 0.08);
+        }
+        .btn-primary.active-style:hover {
+            background-color: #1d4ed8; /* Blue-700 */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+
+        /* Spinner styles */
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin-left: 0.75rem; /* Space between text and spinner */
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Modal styling - kept consistent with previous versions for coherence */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 10px -4px rgba(0, 0, 0, 0.05);
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            color: #1a202c;
+        }
+        .modal-button {
+            background-color: #4299e1;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out;
+            cursor: pointer;
+            margin-top: 1.5rem;
+        }
+        .modal-button:hover {
+            background-color: #3182ce;
+        }
+        .modal-title {
+            font-size: 1.75rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .modal-message {
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        .modal-error-title {
+            color: #ef4444;
+        }
+
+        /* Instructions Section Specific Styles */
+        .instructions-section {
+            text-align: left; /* Align text left within this section */
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border: 1px solid #cbd5e0; /* light gray border */
+            border-radius: 0.5rem;
+            background-color: #f8fafc; /* very light blue-gray background */
+        }
+        .instructions-section h3 {
+            font-weight: 600; /* semi-bold */
+            font-size: 1.25rem; /* text-xl */
+            margin-top: 0.5rem; /* Reduced top margin */
+            margin-bottom: 0.75rem;
+            color: #374151; /* gray-700 */
+        }
+        .instructions-section ul {
+            list-style: disc;
+            margin-left: 1.5rem;
+            color: #4b5563; /* gray-700 */
+        }
+        .instructions-section li {
+            margin-bottom: 0.5rem;
+        }
+        /* Custom styling for the checkbox container */
+        .agreement-checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center the checkbox and text */
+            margin-top: 1.5rem; /* Space above the checkbox */
+            margin-bottom: 1rem; /* Space below the checkbox */
+        }
+        .agreement-checkbox-container input[type="checkbox"] {
+            width: 1.25rem; /* Tailwind w-5 */
+            height: 1.25rem; /* Tailwind h-5 */
+            margin-right: 0.75rem; /* Space between checkbox and text */
+            border-radius: 0.25rem; /* Slightly rounded checkbox */
+            border: 1px solid #9ca3af; /* Light gray border */
+            accent-color: #2563eb; /* Blue accent color when checked */
+            cursor: pointer;
+        }
+        .agreement-checkbox-container label {
+            color: #4b5563; /* Text color for the agreement */
+            font-size: 0.95rem; /* Slightly smaller font size */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <header class="fixed top-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg p-4 z-20">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="/static/lyptus-logo.jpg" alt="Lyptus Logo" class="h-10">
+                <h1 class="text-2xl font-bold text-white tracking-wide">Lyptus Assessments</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow overflow-y-auto pt-20 pb-16 flex items-center justify-center p-4">
+        <div class="form-card">
+            <h1 class="text-4xl font-extrabold mb-6">Start Your Test!</h1>
+            <p class="text-lg mb-6">Please provide your details to register and begin your L1 Qualification Test.</p>
+
+            <form id="registration-form" class="space-y-5">
+                <div class="mb-4 flex items-center">
+                    <label for="name" class="block text-gray-700 text-sm font-semibold mb-0 flex-shrink-0" style="width: 120px;">
+                        Full Name:
+                    </label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your full name"
+                        class="shadow appearance-none border rounded-lg flex-grow py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ml-2"
+                        required
+                    >
+                </div>
+
+                <div class="mb-4 flex items-center">
+                    <label for="email" class="block text-gray-700 text-sm font-semibold mb-0 flex-shrink-0" style="width: 120px;">
+                        Email Address:
+                    </label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        class="shadow appearance-none border rounded-lg flex-grow py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ml-2"
+                        required
+                    >
+                </div>
+
+                <div class="mb-6 flex items-center">
+                    <label for="phone" class="block text-gray-700 text-sm font-semibold mb-0 flex-shrink-0" style="width: 120px;">
+                        Phone Number:
+                    </label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="Enter your phone number"
+                        class="shadow appearance-none border rounded-lg flex-grow py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ml-2"
+                        pattern="^\+?[0-9]{10,15}$"
+                        title="Phone number must be 10-15 digits, optionally starting with '+'"
+                    >
+                </div>
+
+                <div id="warning-message" class="hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded-md text-left" role="alert">
+                    <p class="font-bold">Important Warning!</p>
+                    <p>Once the test starts, you cannot go back to previous pages or refresh the page. Doing so may cause loss of progress or test expiration.</p>
+                </div>
+
+
+                <div class="instructions-section">
+                    <h3>Test Details</h3>
+                    <ul>
+                        <li>Total Questions: 5 (one from each category A-B, C-D, E-F, G-H, I-J)</li>
+                        <li>Time Limit: 1 hour (60 minutes)</li>
+                        <li>You <strong>cannot go back</strong> to previous questions once you move forward.</li>
+                        <li>Your time will start the moment you click "Register & Start Test".</li>
+                    </ul>
+
+                    <h3>Coding Environment:</h3>
+                    <ul>
+                        <li>You can choose between <strong>C, C++, and Python</strong> for each question.</li>
+                        <li>An in-browser code editor will be provided.</li>
+                        <li>You can run your code against sample test cases multiple times to check your logic.</li>
+                        <li>Make sure your code produces the <em>exact</em> expected output for the given input. <strong>Leading/trailing spaces or extra newlines can cause test failures.</strong></li>
+                        <li>Your code will be evaluated against hidden test cases upon final submission.</li>
+                    </ul>
+
+                    <h3>Important Anti-Cheating Measures</h3>
+                    <ul>
+                        <li><strong>Copy-Pasting is Disabled:</strong> You will not be able to copy or paste text on the test page.</li>
+                        <li><strong>Screen Capture Blurring:</strong> If a screenshot is detected, the test content will be blurred.</li>
+                        <li><strong>Single Link Usage:</strong> This test link can only be opened once. Do not close your browser or refresh unnecessarily once the test starts.</li>
+                        <li><strong>Automatic Closure:</strong> The test will automatically close and submit after the time limit expires.</li>
+                    </ul>
+
+                    <h3>Submission:</h3>
+                    <ul>
+                        <li>Ensure you click "<strong>Next Question</strong>" after completing each question to save your work and move forward.</li>
+                        <li>Once you answer all questions, you will be prompted for final submission.</li>
+                        <li>After final submission, you cannot re-attempt the test using this link.</li>
+                    </ul>
+                </div>
+
+                <div class="mt-4 p-3 border rounded-md" id="permission-status-box">
+                    <p class="text-sm font-medium text-gray-700">Media Permissions:</p>
+                    <p id="camera-mic-status" class="text-red-500">Camera & Microphone: Not Granted</p>
+                    <p id="screen-share-status" class="text-red-500">Screen Share: Not Granted</p>
+                    <button type="button" id="grant-media-access-btn"
+                            class="mt-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                        Grant Media Access
+                    </button>
+                    <p id="media-permission-error" class="text-red-600 text-sm mt-2 hidden"></p>
+                </div>
+
+                <div class="agreement-checkbox-container">
+                    <input type="checkbox" id="agree-terms">
+                    <label for="agree-terms">By checking this, I agree to the terms and conditions and consent to camera, microphone, and screen recording for proctoring purposes.</label>
+                </div>
+                <input type="hidden" id="link-hash" name="link_hash" value="{{ link_hash }}">
+
+                <button type="submit" id="start-test-btn"
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-gray-300 text-gray-700 cursor-not-allowed"
+                    disabled>
+                    <span id="button-text">Register & Start Test</span>
+                    <div id="spinner" class="loading-spinner hidden"></div>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="fixed bottom-0 left-0 right-0 bg-gray-900 text-gray-300 p-4 text-center z-20 shadow-lg">
+        <div class="container mx-auto">
+            <p class="text-sm">
+                &copy; 2025 Lyptus Inc. All rights reserved.
+                <span class="block mt-1 md:inline md:mt-0 md:ml-2">Your premier platform for technical skill assessments.</span>
+            </p>
+        </div>
+    </footer>
+
+    <div id="custom-modal-overlay" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 id="custom-modal-title" class="text-xl font-bold mb-4"></h3>
+            <p id="custom-modal-message" class="text-gray-700 mb-6"></p>
+            <button id="custom-modal-close-btn"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm transition duration-150 ease-in-out">
+                OK
+            </button>
+        </div>
+    </div>
+    <script>
+        const linkHash = "{{ link_hash }}";
+        const registrationForm = document.getElementById('registration-form');
+        const agreeTermsCheckbox = document.getElementById('agree-terms');
+        const startTestBtn = document.getElementById('start-test-btn');
+        const buttonText = document.getElementById('button-text');
+        const spinner = document.getElementById('spinner');
+
+        const grantMediaAccessBtn = document.getElementById('grant-media-access-btn');
+        const cameraMicStatus = document.getElementById('camera-mic-status');
+        const screenShareStatus = document.getElementById('screen-share-status');
+        const mediaPermissionError = document.getElementById('media-permission-error');
+
+        let cameraMicGranted = false; // Track camera and mic permission
+        let screenShareGranted = false; // Track screen share permission
+        let termsAgreed = false;
+        const fullNameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phone');
+        const warningMessage = document.getElementById('warning-message');
+
+        // Function to show/hide the warning message based on name input
+        fullNameInput.addEventListener('input', () => {
+            if (fullNameInput.value.trim() !== '') {
+                warningMessage.classList.remove('hidden');
+            } else {
+                warningMessage.classList.add('hidden');
+            }
+            checkAllConditions();
+        });
+
+        // Event listener for agreement checkbox
+        agreeTermsCheckbox.addEventListener('change', () => {
+            termsAgreed = agreeTermsCheckbox.checked;
+            checkAllConditions();
+        });
+
+        // Function to update the state of the "Register & Start Test" button
+        function checkAllConditions() {
+            const allInputsFilled = fullNameInput.value.trim() !== '' && emailInput.value.trim() !== '' && phoneInput.value.trim() !== '';
+            const phonePattern = /^\+?[0-9]{10,15}$/;
+            const isPhoneValid = !phoneInput.value.trim() || phonePattern.test(phoneInput.value.trim()); // Only validate if not empty
+
+            // The button is enabled only if all inputs are filled, phone is valid, terms are agreed, AND both media permissions are granted.
+            if (allInputsFilled && isPhoneValid && termsAgreed && cameraMicGranted && screenShareGranted) {
+                startTestBtn.disabled = false;
+                startTestBtn.classList.add('active-style');
+                // Apply the active styling classes directly to the button
+                startTestBtn.classList.remove('bg-gray-300', 'text-gray-700', 'cursor-not-allowed');
+                startTestBtn.classList.add('bg-blue-600', 'text-white', 'hover:bg-blue-700', 'focus:outline-none', 'focus:ring-2', 'focus:ring-offset-2', 'focus:ring-blue-500');
+            } else {
+                startTestBtn.disabled = true;
+                startTestBtn.classList.remove('active-style');
+                // Revert to disabled styling classes
+                startTestBtn.classList.add('bg-gray-300', 'text-gray-700', 'cursor-not-allowed');
+                startTestBtn.classList.remove('bg-blue-600', 'text-white', 'hover:bg-blue-700', 'focus:outline-none', 'focus:ring-2', 'focus:ring-offset-2', 'focus:ring-blue-500');
+            }
+        }
+
+
+        function showModal(title, message, isError = false, onConfirm = null) {
+            const modalHtml = `
+                <div class="modal-overlay">
+                    <div class="modal-content">
+                        <h3 class="modal-title ${isError ? 'modal-error-title' : ''}">${title}</h3>
+                        <p class="modal-message">${message}</p>
+                        <button id="modal-ok-btn" class="modal-button">OK</button>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            document.getElementById('modal-ok-btn').addEventListener('click', () => {
+                document.querySelector('.modal-overlay').remove();
+                if (onConfirm) {
+                    onConfirm();
+                }
+            });
+        }
+
+         /**
+         * Displays a custom modal message.
+         * @param {string} title - The title of the modal.
+         * @param {string} message - The message content.
+         * @param {boolean} isError - True if it's an error message, false otherwise.
+         * @param {function} onCloseCallback - Callback function to execute when the modal is closed.
+         */
+        function showCustomModal(title, message, isError = false, onCloseCallback = null) {
+            const modalOverlay = document.getElementById('custom-modal-overlay');
+            const modalTitle = document.getElementById('custom-modal-title');
+            const modalMessage = document.getElementById('custom-modal-message');
+            const closeModalButton = document.getElementById('custom-modal-close-btn');
+
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+
+            if (isError) {
+                modalTitle.classList.add('text-red-500');
+            } else {
+                modalTitle.classList.remove('text-red-500');
+            }
+
+            modalOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+
+            const closeHandler = () => {
+                modalOverlay.classList.add('hidden');
+                document.body.style.overflow = 'auto'; // Restore scrolling
+                closeModalButton.removeEventListener('click', closeHandler);
+                modalOverlay.removeEventListener('click', overlayClickHandler);
+                if (onCloseCallback) {
+                    onCloseCallback();
+                }
+            };
+
+            const overlayClickHandler = (e) => {
+                if (e.target.id === 'custom-modal-overlay') { // Use custom-modal-overlay ID
+                    closeHandler();
+                }
+            };
+
+            closeModalButton.addEventListener('click', closeHandler);
+            modalOverlay.addEventListener('click', overlayClickHandler);
+        }
+
+        function updatePermissionStatusUI(camMicStatus, screenStatus) {
+            // Update Camera & Microphone status
+            if (camMicStatus) {
+                cameraMicStatus.textContent = "Camera & Microphone: Granted";
+                cameraMicStatus.classList.remove('text-red-500');
+                cameraMicStatus.classList.add('text-green-600');
+            } else {
+                cameraMicStatus.textContent = "Camera & Microphone: Not Granted";
+                cameraMicStatus.classList.remove('text-green-600');
+                cameraMicStatus.classList.add('text-red-500');
+            }
+
+            // Update Screen Share status
+            if (screenStatus) {
+                screenShareStatus.textContent = "Screen Share: Granted";
+                screenShareStatus.classList.remove('text-red-500');
+                screenShareStatus.classList.add('text-green-600');
+            } else {
+                screenShareStatus.textContent = "Screen Share: Not Granted";
+                screenShareStatus.classList.remove('text-green-600');
+                screenShareStatus.classList.add('text-red-500');
+            }
+
+            // Update global flags
+            cameraMicGranted = camMicStatus;
+            screenShareGranted = screenStatus;
+
+            checkAllConditions(); // Re-check conditions after permission status updates
+        }
+
+        registrationForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            // All checks are now handled by checkAllConditions, and the button will be disabled if conditions aren't met.
+            // This is a final safety check if someone bypasses disabled state.
+            if (!startTestBtn.classList.contains('active-style') || startTestBtn.disabled) {
+                showCustomModal("Required Information Missing", "Please fill in all required fields, agree to the terms, and grant media permissions to start the test.", true);
+                return;
+            }
+
+            startTestBtn.disabled = true;
+            buttonText.textContent = "Registering...";
+            spinner.classList.remove('hidden');
+
+            const linkHashValue = document.getElementById('link-hash').value; // Get value from hidden input
+            const fullName = fullNameInput.value;
+            const email = emailInput.value;
+            const phoneNumber = phoneInput.value;
+
+            try {
+                const response = await fetch(`/api/candidates/test/register_and_start/${linkHashValue}`, { // Use linkHashValue
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        full_name: fullName,
+                        email: email,
+                        phone_number: phoneNumber
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('candidateUserId', data.user_id_for_test);
+                    localStorage.setItem('candidateTestToken', data.candidate_token);
+
+                    showModal("Success", data.message, false, () => {
+                        window.location.href = data.test_url;
+                    });
+                } else {
+                    showModal("Registration Failed", data.message || "Registration failed. Please try again.", true, () => {
+                        startTestBtn.disabled = false;
+                        buttonText.textContent = "Register & Start Test";
+                        spinner.classList.add('hidden');
+                        checkAllConditions(); // Re-check after failed attempt
+                    });
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showModal("Network Error", `An error occurred during registration: ${error.message}. Please check your connection.`, true, () => {
+                    startTestBtn.disabled = false;
+                    buttonText.textContent = "Register & Start Test";
+                    spinner.classList.add('hidden');
+                    checkAllConditions(); // Re-check after network error
+                });
+            }
+        });
+
+        // Initial check for messages from URL parameters and permission status on load
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const message = urlParams.get('message');
+            if (message) {
+                showModal("Information", decodeURIComponent(message));
+            }
+
+            // Check initial camera and microphone permission status
+            let initialCamMicGranted = false;
+            let initialScreenShareGranted = false;
+
+            try {
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia && navigator.permissions) {
+                    const cameraPermission = await navigator.permissions.query({ name: 'camera' });
+                    const microphonePermission = await navigator.permissions.query({ name: 'microphone' });
+
+                    if (cameraPermission.state === 'granted' && microphonePermission.state === 'granted') {
+                        initialCamMicGranted = true;
+                    }
+                }
+            } catch (error) {
+                console.warn("Permission API for camera/mic not fully supported or error querying permissions:", error);
+            }
+
+            try {
+                if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia && navigator.permissions) {
+                    const screenSharePermission = await navigator.permissions.query({ name: 'display-capture' });
+                    if (screenSharePermission && screenSharePermission.state === 'granted') {
+                        initialScreenShareGranted = true;
+                    }
+                }
+            } catch (error) {
+                console.warn("Permission API for screen share not fully supported or error querying permissions:", error);
+            }
+
+            updatePermissionStatusUI(initialCamMicGranted, initialScreenShareGranted);
+        });
+
+        grantMediaAccessBtn.addEventListener('click', async () => {
+            mediaPermissionError.classList.add('hidden');
+            let tempCameraMicGranted = false;
+            let tempScreenShareGranted = false;
+
+            try {
+                // Request Camera and Microphone
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    const cameraMicStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                    cameraMicStream.getTracks().forEach(track => track.stop()); // Stop tracks immediately after getting permission
+                    tempCameraMicGranted = true;
+                } else {
+                    console.error("Cannot request media devices: navigator.mediaDevices.getUserMedia is not available.");
+                    mediaPermissionError.textContent = "Your browser does not support camera/mic recording or is not running in a secure context (HTTPS). Please update your browser or use HTTPS.";
+                    mediaPermissionError.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error("Permission denied or error requesting camera/mic:", error);
+                mediaPermissionError.textContent = `Failed to get camera/mic permission: ${error.message}. Please allow access to camera/mic from your browser settings.`;
+                mediaPermissionError.classList.remove('hidden');
+            }
+
+            try {
+                // Request Screen Share
+                if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+                    const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+                    screenStream.getTracks().forEach(track => track.stop()); // Stop tracks immediately after getting permission
+                    tempScreenShareGranted = true;
+                } else {
+                    console.error("Cannot request screen share: navigator.mediaDevices.getDisplayMedia is not available.");
+                    // Append to existing error or show new one if camera/mic was fine
+                    if (mediaPermissionError.classList.contains('hidden')) {
+                         mediaPermissionError.textContent = "Your browser does not support screen sharing or is not running in a secure context (HTTPS). Please update your browser or use HTTPS.";
+                         mediaPermissionError.classList.remove('hidden');
+                    } else {
+                        mediaPermissionError.textContent += " Also, screen sharing is not supported or allowed.";
+                    }
+                }
+            } catch (error) {
+                console.error("Permission denied or error requesting screen share:", error);
+                // Append to existing error or show new one if camera/mic was fine
+                if (mediaPermissionError.classList.contains('hidden')) {
+                    mediaPermissionError.textContent = `Failed to get screen share permission: ${error.message}. Please allow access from your browser settings.`;
+                    mediaPermissionError.classList.remove('hidden');
+                } else {
+                    mediaPermissionError.textContent += ` Failed to get screen share permission: ${error.message}.`;
+                }
+            }
+
+            // Update global flags and UI
+            updatePermissionStatusUI(tempCameraMicGranted, tempScreenShareGranted);
+        });
+
+        // Add event listeners for input fields to trigger checkAllConditions
+        fullNameInput.addEventListener('input', checkAllConditions);
+        emailInput.addEventListener('input', checkAllConditions);
+        phoneInput.addEventListener('input', checkAllConditions);
+
+    </script>
+</body>
+</html>

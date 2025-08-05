@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Access Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            flex-direction: column; /* Allows content, header, footer to stack vertically */
+            min-height: 100vh;
+            margin: 0;
+            padding: 0; /* Ensure no default body padding interferes */
+            box-sizing: border-box;
+        }
+        .content-container {
+            max-width: 600px;
+            width: 100%;
+        }
+        @media (max-width: 640px) {
+            .content-container {
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg p-4 z-20">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="/static/lyptus-logo.jpg" alt="Lyptus Logo" class="h-10">
+                <h1 class="text-2xl font-bold text-white tracking-wide">Lyptus Assessments</h1>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow overflow-y-auto pt-20 pb-16 flex items-center justify-center p-4">
+        <div class="content-container bg-white p-8 rounded-2xl shadow-xl space-y-6 m-4 sm:p-10 text-center">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Welcome to Your Secure Page!</h1>
+            <p class="text-lg text-gray-700">This page is accessible via a unique and time-limited link.</p>
+            <p class="text-md text-gray-600">
+                You are viewing this page as <span id="recipient-email" class="font-semibold text-blue-600"></span>.
+                This access is restricted to the device used for the first activation.
+            </p>
+            <div class="mt-8">
+                <button onclick="location.href='/login'"
+                        class="inline-flex items-center px-6 py-3 border border-transparent text-lg font-medium rounded-xl shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                    Return to Login
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-gray-900 text-gray-300 p-4 text-center z-20 shadow-lg">
+        <div class="container mx-auto">
+            <p class="text-sm">
+                &copy; 2025 Lyptus Inc. All rights reserved.
+                <span class="block mt-1 md:inline md:mt-0 md:ml-2">Your premier platform for technical skill assessments.</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function displayRecipientEmail() {
+            const params = new URLSearchParams(window.location.search);
+            const email = params.get('recipient_email');
+            if (email) {
+                document.getElementById('recipient-email').textContent = decodeURIComponent(email);
+            } else {
+                document.getElementById('recipient-email').textContent = 'Guest'; // Fallback
+            }
+        }
+        window.onload = displayRecipientEmail;
+    </script>
+</body>
+</html>

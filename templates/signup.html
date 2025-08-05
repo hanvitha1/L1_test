@@ -1,0 +1,120 @@
+
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Reviewer Sign Up</title>
+                <script src="https://cdn.tailwindcss.com"></script>
+                <style>
+                    body {
+                        font-family: "Inter", sans-serif;
+                        background-color: #f3f4f6;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        min-height: 100vh;
+                        margin: 0;
+                    }
+                    .form-container {
+                        max-width: 480px;
+                        width: 100%;
+                    }
+                    @media (max-width: 640px) {
+                        .form-container {
+                            margin: 1rem;
+                        }
+                    }
+                </style>
+            </head>
+            <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+                <div class="form-container bg-white p-8 rounded-2xl shadow-xl space-y-6 m-4 sm:p-10">
+                    <h2 class="text-3xl font-extrabold text-gray-900 text-center mb-6">Reviewer Sign Up</h2>
+                    <div id="message-box" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl relative" role="alert">
+                        <strong class="font-bold">Error:</strong>
+                        <span class="block sm:inline" id="message-text"></span>
+                    </div>
+                    <form action="/signup" method="POST" onsubmit="return validateSignUpForm()">
+                        <div>
+                            <label for="fullname" class="block text-sm font-medium text-gray-700">Full Name</label>
+                            <input type="text" id="fullname" name="fullname" required
+                                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                   placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Outlook Email Address</label>
+                            <input type="email" id="email" name="email" required
+                                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                   placeholder="your.email@outlook.com">
+                            <p class="mt-1 text-xs text-gray-500">Only Outlook, Hotmail, Live, MSN, Lyptus-Tech.com, or Gmail.com email addresses are allowed.</p>
+                        </div>
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" id="password" name="password" required minlength="8"
+                                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                   placeholder="••••••••">
+                            <p class="mt-1 text-xs text-gray-500">Minimum 8 characters.</p>
+                        </div>
+                        <div>
+                            <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                            <input type="password" id="confirm-password" name="confirm_password" required
+                                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                   placeholder="••••••••">
+                        </div>
+                        <div>
+                            <button type="submit"
+                                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-xl shadow-sm text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                                Sign Up
+                            </button>
+                        </div>
+                    </form>
+                    <div class="text-center text-sm">
+                        Already have an account? 
+                        <a href="/login" class="font-medium text-blue-600 hover:text-blue-500">Log In here</a>
+                    </div>
+                </div>
+                <script>
+                    function validateSignUpForm() {
+                        const emailInput = document.getElementById('email');
+                        const passwordInput = document.getElementById('password');
+                        const confirmPasswordInput = document.getElementById('confirm-password');
+                        const messageBox = document.getElementById('message-box');
+                        const messageText = document.getElementById('message-text');
+                        const email = emailInput.value;
+                        const password = passwordInput.value;
+                        const confirmPassword = confirmPasswordInput.value;
+                        const outlookDomains = ['outlook.com', 'gmail.com', 'hotmail.com', 'live.com', 'msn.com', 'lyptus-tech.com'];
+                        const emailDomain = email.split('@')[1];
+                        if (!outlookDomains.includes(emailDomain)) {
+                            messageText.textContent = "Only Outlook, Hotmail, Live, MSN, Lyptus-Tech.com, or Gmail.com email addresses are allowed.";
+                            messageBox.classList.remove('hidden');
+                            return false;
+                        }
+                        if (password !== confirmPassword) {
+                            messageText.textContent = "Passwords do not match.";
+                            messageBox.classList.remove('hidden');
+                            return false;
+                        }
+                        if (password.length < 8) {
+                            messageText.textContent = "Password must be at least 8 characters long.";
+                            messageBox.classList.remove('hidden');
+                            return false;
+                        }
+                        messageBox.classList.add('hidden');
+                        return true;
+                    }
+                    function displayServerMessage() {
+                        const params = new URLSearchParams(window.location.search);
+                        const error = params.get('error');
+                        const messageBox = document.getElementById('message-box');
+                        const messageText = document.getElementById('message-text');
+                        if (error) {
+                            messageText.textContent = decodeURIComponent(error);
+                            messageBox.classList.remove('hidden');
+                        }
+                    }
+                    window.onload = displayServerMessage;
+                </script>
+            </body>
+            </html>
+        
